@@ -1,0 +1,342 @@
+﻿@using ROHM_WOS.Models.MasterEntities;
+@{
+    ViewBag.Title = "Work Order Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/assets/plugins/jquery-smart-wizard/src/css/smart_wizard.css" rel="stylesheet" />
+}
+<style>
+    .form-group {
+        border-bottom: 1px solid #eee !important;
+    }
+
+    .custom-file-label {
+        height: 30px;
+        padding: .36rem .75rem;
+        line-height: 1.4;
+    }
+
+        .custom-file-label::after {
+            height: 28px;
+            padding: .375rem .75rem;
+            line-height: 1.4;
+        }
+
+    .form-control[readonly], .form-control[disabled] {
+        background-color: #e9ecef;
+        opacity: 1 !important;
+    }
+
+    .tbl-100p {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .modal-dialog.tbl-100p {
+        width: CALC(100% - 30px) !important;
+        min-width: CALC(100% - 30px) !important;
+        max-width: CALC(100% - 30px) !important;
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+    }
+</style>
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Work Order Request</a></li>
+    <li class="breadcrumb-item active"><a>Request Form</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Work Order Request</h1>
+<!-- end page-header -->
+<div class="row justify-content-center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse" data-sortable-id="form-plugins-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Request</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-4 m-b-5 ReadAndWrite">
+                                <button type="button" id="btnAddRequest" class="btn btn-sm btn-primary btn-block"><span class="fa fa-plus"></span><span class="btnLabel"> Add</span></button>
+                            </div>
+                            <div class="col-sm-4 m-b-5 ReadAndWrite">
+                                <button type="button" id="btnEditRequest" class="btn btn-sm btn-info btn-block tbl-tr-btns" disabled=""><span class="fa fa-edit"></span><span class="btnLabel"> Edit</span></button>
+                            </div>
+                            <div class="col-sm-4 m-b-5 DeleteEnabled">
+                                <button type="button" id="btnDeleteRequest" class="btn btn-sm btn-danger btn-block tbl-tr-btns" disabled=""><span class="fa fa-trash-alt"></span><span class="btnLabel"> Delete</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped" id="tblRequest" style="width:100%;"></table>
+                </div>
+            </div>
+            <!-- end panel-body -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdlCriteria" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mdlCriteria" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Criteria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <h4>ROHM ELECTRONICS PHILS., INC.</h4>
+                <h5>FACILITIES CONTROL DIVISION</h5>
+                <h6>WORK ORDER REQUEST FORM</h6>
+                <table class="table table-bordered" id="tblCriteria">
+                    <thead>
+                        <tr class="bg-grey-lighter">
+                            <th colspan="4">CRITERIA FOR SETTING TARGET OF QUOTATION COMPLETION</th>
+                            <th class="text-center">POINTS</th>
+                            <th style="width:90px;">CHECK ITEM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbCriteria">
+                        <tr class="bg-grey-lighter" id="trLevelOfPriorityHeader">
+                            <td colspan="4">LEVEL OF PRIORITY</td>
+                            <td class="text-center">SCORE</td>
+                            <td class="text-center" style="width:90px;">REMARKS</td>
+                        </tr>
+                        <tr id="trLevelOfPriorityTotal">
+                            <td colspan="4" class="text-right font-weight-bold">TOTAL SCORE</td>
+                            <td id="tdLevelOfPriorityTotal" class="text-right">0</td>
+                            <td style="width:90px;"></td>
+                        </tr>
+                        <tr class="bg-grey-lighter" id="trTimeFrameHeader">
+                            <td>TIME FRAME/PRIORITY LEVEL</td>
+                            <td class="text-center">SCORE</td>
+                            <td class="text-center">REMARKS</td>
+                            <td class="text-center" colspan="3">SET DEADLINE(DATE)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal" id="btnCancelCriteria"><span class="fa fa-eraser"></span> Cancel</a>
+                <a href="javascript:;" class="btn btn-success btn-sm" id="btnConfirmCriteria">
+                    <i class="fa fa-check-circle"></i> Confirm
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade p-r-0" id="mdlContractorSupplierList" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 999999;">
+    <div class="modal-dialog modal-md " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlContractorSupplierListTitle">Supplier List</h5>
+            </div>
+            <div class="modal-body" id="mdlBodyContractorSupplierList">
+                <table class="table table-bordered table-striped" id="tbl_suppliers" style="width:100%;">
+                    <thead class="th-dark">
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="chkAllSupplier" class="filled-in chk-col-light-blue" />
+                                <label class="checker" for="chkAllSupplier"></label>
+                            </th>
+                            <th>Supplier Name</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal" id="btnSelectContractorSupplier"><span class="fa fa-ch"></span> Select</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade p-r-0" id="mdlFacilitiesList" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 999999;">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlFacilitiesListTitle">Facilities List</h5>
+            </div>
+            <div class="modal-body" id="mdlBodyFacilitiesList">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="row m-b-5">
+                            <div class="col-md-3">Division : </div>
+                            <div class="col-md-9">
+                                <select id="FacDivision" class="form-control form-control-sm">
+                                    <option value="">--SELECT--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row m-b-5">
+                            <div class="col-md-3">Department : </div>
+                            <div class="col-md-9">
+                                <select id="FacDepartment" class="form-control form-control-sm">
+                                    <option value="">--SELECT--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row m-b-5">
+                            <div class="col-md-3">Section : </div>
+                            <div class="col-md-9">
+                                <select id="FacSection" class="form-control form-control-sm">
+                                    <option value="">--SELECT--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped" id="tblFacilities" style="width:100%;">
+                    <thead class="th-dark">
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="chkAllFacilities" class="filled-in chk-col-light-blue" />
+                                <label class="checker" for="chkAllFacilities"></label>
+                            </th>
+                            <th>Assigned Section</th>
+                            <th>Assigned Person</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal" id="btnSelectFacilities"><span class="fa fa-ch"></span> Select</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade p-r-0" id="mdlCreateRequest" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 99999;">
+    <div class="modal-dialog modal-xl tbl-100p" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlCreateRequestTitle">Create Request</h5>
+            </div>
+            <div class="modal-body" id="mdlBodyCreateRequest">
+                <form class="form-horizontal form-bordered" id="frmRequest">
+                    <input type="hidden" class="clear" id="ID">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Date: </label>
+                                <div class="col-md-9">
+                                    <input type="date" id="DateRequest" name="DateRequest" class="form-control form-control-sm clear usr_ctrl input_state">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Work Order No.: </label>
+                                <div class="col-md-9">
+                                    <input type="text" id="WorkOrderTitle" name="WorkOrderTitle" class="form-control form-control-sm clear usr_ctrl input_state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offset-md-2 offset-lg-2 col-lg-4 col-md-4 col-sm-12 col-xs-12" style="display:none;">
+                            <table class="table table-bordered text-center" id="tbl_users">
+                                <thead class="th-dark">
+                                    <tr>
+                                        <th>CHECKED</th>
+                                        <th>APPROVED</th>
+                                        <th>NOTED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>Requestor</td>
+                                        <td>Dept. Mngr</td>
+                                        <td>Div Mngr</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="wizard">
+                        <!-- begin wizard-step -->
+                        <ul>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-1">
+                                    <span class="number">1</span>
+                                    <span class="info text-ellipsis">
+                                        Requestor Information
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-3 col-sm-4 col-6">
+                                <a href="#step-2">
+                                    <span class="number">2</span>
+                                    <span class="info text-ellipsis">
+                                        Work Description Details
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-3">
+                                    <span class="number">3</span>
+                                    <span class="info text-ellipsis">
+                                        Facilities
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-4">
+                                    <span class="number">4</span>
+                                    <span class="info text-ellipsis">
+                                        Contractor Work
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-3 col-sm-4 col-6">
+                                <a href="#step-5">
+                                    <span class="number">5</span>
+                                    <span class="info text-ellipsis">
+                                        Request Acknowledgement
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end wizard-step -->
+                        <!-- begin wizard-content -->
+                        <div>
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_RequestorInformation.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_WorkDescriptionDestails.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_Facilities.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_ContractorWork.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_RequestAcknowledgement.cshtml")
+                        </div>
+                        <!-- end wizard-content -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-md btn-primary" data-dismiss="modal" id="btnSaveRequest"><span class="fa fa-save"></span> Save  Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/js/lodash.min.js"></script>
+    <script src="~/Content/assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js"></script>
+    <script src="~/Areas/WorkOrderRequest/Javascripts/WorkOrderRequest.js"></script>
+}

@@ -1,0 +1,46 @@
+﻿$(function () {
+    $("#wizard").smartWizard({
+        selected: 0,
+        theme: "default",
+        transitionEffect: "",
+        transitionSpeed: 0,
+        useURLhash: !1,
+        showStepURLhash: !1,
+        toolbarSettings: {
+            toolbarPosition: "bottom"
+        }
+    })
+    $("#BuildingID").append("<option value='0'>Others</option>");
+    $("#BuildingID").on("change", function () {
+        if ($(this).val() == '0') {
+            $("#BuildingOther").show();
+        } else {
+            $("#BuildingOther").val("").hide();
+            Dropdown_select('FloorID', "/Helper/GetDropdown_Floor?BuildingID=" + $("#BuildingID").val());
+            $("#FloorID").append("<option value='0'>Others</option>");
+        }
+    });
+    $("#FloorID").append("<option value='0'>Others</option>");
+    $("#FloorID").on("change", function () {
+        if ($(this).val() == '0') {
+            $("#FloorOther").show();
+        } else {
+            $("#FloorOther").val("").hide();
+        }
+    });
+    $("#chkWorkRequest_Others").click(function () {
+        if ($(this).is(":checked"))
+            $("#WorkRequest_Others").prop("disabled", false);
+        else
+            $("#WorkRequest_Others").prop("disabled", true);
+    });
+    $("#chkWorkClassification_Others").click(function () {
+        if ($(this).is(":checked"))
+            $("#WorkClassification_Others").prop("disabled", false);
+        else
+            $("#WorkClassification_Others").prop("disabled", true);
+    });
+    $("#btnCriteria").click(function () {
+        $("#mdlCriteria").modal("show");
+    });
+});

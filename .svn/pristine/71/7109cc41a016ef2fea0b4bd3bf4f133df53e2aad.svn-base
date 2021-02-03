@@ -1,0 +1,218 @@
+﻿@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@*<ol class="breadcrumb pull-right">
+        <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Tables</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Managed Tables</a></li>
+        <li class="breadcrumb-item active">Responsive</li>
+    </ol>*@
+
+
+<style>
+    .input-group-text {
+        width: 144px !important;
+    }
+</style>
+
+<h1 class="page-header">User Master <small>List of WOS users</small></h1>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    @*<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>*@
+                </div>
+                <h4 class="panel-title">User Form</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <form action="" method="POST" role="form" id="UsersForm" class="form-horizontal">
+                    <input type="hidden" class="form-control input-sm clear" name="ID" id="ID" readonly="">
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">UserName: </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control input-sm usr_ctrl input_state clear" id="UserName" name="UserName" autocomplete="off" maxlength="20">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">First Name: </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control input-sm usr_ctrl input_state clear" id="FirstName" name="FirstName" autocomplete="off" maxlength="50">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Last Name: </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control input-sm usr_ctrl input_state clear" id="LastName" name="LastName" autocomplete="off" maxlength="50">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Email: </label>
+                                <div class="col-md-9">
+                                    <input type="email" class="form-control input-sm usr_ctrl input_state clear" id="Email" name="Email" autocomplete="off" maxlength="50">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Division: </label>
+                                <div class="col-md-9">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="Division" name="Division">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Section: </label>
+                                <div class="col-md-9">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="Section" name="Section">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Department: </label>
+                                <div class="col-md-9">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="Department" name="Department">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2" id="btn_add_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2" id="btn_save_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2" id="btn_clear_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2" id="btn_cancel_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </div>
+            <!-- end panel-body -->
+
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-6 -->
+
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                    @*<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>*@
+                    @*<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>*@
+                </div>
+                <h4 class="panel-title">User List</h4>
+            </div>
+
+            <div class="panel-body">
+                <table id="UsersTable" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                <label class="checker" for="checkall_emp"></label>
+                            </th>
+                            <th>
+                                Modify
+                            </th>
+                            <th>UserName</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Section</th>
+                            <th>Division</th>
+                            <th>Department</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+
+                </table>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-2 mb-3" id="btn_delete_div">
+                    <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+
+    <script src="~/Areas/MasterModule/Javascripts/Users.js"></script>
+
+}

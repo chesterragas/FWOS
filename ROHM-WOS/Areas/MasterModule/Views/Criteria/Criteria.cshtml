@@ -1,0 +1,313 @@
+﻿
+@{
+    ViewBag.Title = "Criteria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Criteria</h1>
+<!-- end page-header -->
+
+<div class="row">
+    <div class="col-12">
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs" id="criteriatab">
+            <li class="nav-items">
+                <a href="#criteria" data-toggle="tab" class="nav-link active" id="In-House">
+                    <span class="d-sm-none">In-House Criteria</span>
+                    <span class="d-sm-block d-none">In-House Criteria</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#criteria" data-toggle="tab" class="nav-link" id="Supplier">
+                    <span class="d-sm-none">Supplier Criteria</span>
+                    <span class="d-sm-block d-none">Supplier Criteria</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="criteria">
+                <input type="hidden" class="" id="WorkCategory" name="WorkCategory">
+                <input type="hidden" class="clear" id="ID" name="ID">
+                <input type="hidden" class="clear" id="ID_details" name="ID_details">
+                <input type="hidden" class="clear" id="TimeFrameID" name="TimeFrameID">
+                
+                <!-- begin panel-body -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <form class="form-horizontal form-bordered" id="CriteriaForm">
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label">Header Name: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state_criteria" id="CriteriaName" name="CriteriaName">
+                                </div>
+
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+
+                                <label class="col-md-2 col-form-label">Header Order: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state_criteria" id="CriteriaOrder" name="CriteriaOrder">
+                                </div>
+
+
+                            </div>
+
+                            <br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2 mb-3" id="btn_add_criteria_div">
+                                    <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_criteria">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_save_criteria_div">
+                                    <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_criteria">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_clear_criteria_div">
+                                    <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_criteria">
+                                        <i class="fa fa-redo"></i> Clear
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_cancel_criteria_div">
+                                    <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_criteria">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered table-striped table-hover" id="tbl_criteria">
+                                    <thead class="th-dark">
+                                    <th></th>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Modify</th>
+                                    <th>Header</th>
+                                    <th>Order</th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_delete_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_criteria">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <form class="form-horizontal form-bordered" id="CriteriaDetailsForm">
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label">Criteria Name: </label>
+                                <div class="col-md-3">
+                                    <select class="form-control form-control-sm clear" id="CriteriaHeaderID" name="CriteriaHeaderID" disabled>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+
+                                <label class="col-md-2 col-form-label">Detail Name: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_details input_state_criteria_details" id="DetailName" name="DetailName">
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label">Detail Points: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_details input_state_criteria_details" id="DetailPoints" name="DetailPoints">
+                                </div>
+
+                                <label class="col-md-2 col-form-label">Detail Order: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_details input_state_criteria_details" id="DetailOrder" name="DetailOrder">
+                                </div>
+
+
+                            </div>
+                            <br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2 mb-3" id="btn_add_criteria_details_div">
+                                    <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl_details" id="btn_add_criteria_details">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_save_criteria_details_div">
+                                    <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl_details" id="btn_save_criteria_details">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_clear_criteria_details_div">
+                                    <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl_details" id="btn_clear_criteria_details">
+                                        <i class="fa fa-redo"></i> Clear
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_cancel_criteria_details_div">
+                                    <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl_details" id="btn_cancel_criteria_details">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered table-striped" id="tbl_detail">
+                                    <thead class="th-dark">
+                                    <th><input type="checkbox" /></th>
+                                    <th>Modify</th>
+                                    <th>Header</th>
+                                    <th>Details</th>
+                                    <th>Points</th>
+                                    <th>Order</th>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_delete_details_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_criteria_details">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end panel-body -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form-horizontal form-bordered" id="TimeFrameForm">
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label">Working Days: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_timeframe input_state" id="WorkingDays" name="WorkingDays">
+                                </div>
+
+                                <label class="col-md-2 col-form-label">Priority Level: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_timeframe input_state" id="PriorityLevel" name="PriorityLevel">
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label">Score From: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_timeframe input_state" id="ScoreFrom" name="ScoreFrom">
+                                </div>
+
+                                <label class="col-md-2 col-form-label">Score To: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_timeframe input_state" id="ScoreTo" name="ScoreTo">
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="row">
+
+                                <label class="col-md-2 col-form-label"> Remarks: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_timeframe input_state" id="PriorityLevelRemarks" name="PriorityLevelRemarks">
+                                </div>
+
+                               
+                            </div>
+
+                            <br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2 mb-3" id="btn_add_timeframe_div">
+                                    <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_timeframe">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_save_timeframe_div">
+                                    <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_timeframe">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_clear_timeframe_div">
+                                    <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_timeframe">
+                                        <i class="fa fa-redo"></i> Clear
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_cancel_timeframe_div">
+                                    <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_timeframe">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered table-striped table-hover" id="tbl_timeframe">
+                                    <thead class="th-dark">
+                                    <th></th>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Work Category</th>
+                                    <th>Working Days</th>
+                                    <th>Priority Level</th>
+                                    <th>Score From</th>
+                                    <th>Score To</th>
+                                    <th>Remarks</th>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_delete_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_timeframe">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- end tab-pane -->
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/Areas/MasterModule/Javascripts/Criteria.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/TimeFrame.js"></script>
+}
+

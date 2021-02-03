@@ -1,0 +1,359 @@
+﻿using ROHM_WOS.Areas.WorkOrderRequest.Models;
+using ROHM_WOS.Controllers;
+using ROHM_WOS.Models.Helper;
+using ROHM_WOS.Models.MasterEntities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Mvc;
+namespace ROHM_WOS.Areas.WorkOrderRequest.Controllers
+{
+    [Session]
+    public class RequestController : Controller
+    {
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        M_Users user = (M_Users)System.Web.HttpContext.Current.Session["user"];
+        public ActionResult Index()
+        {
+            ViewBag.User = user;
+            var DivisionList = GetDropdown_Division();
+            ViewBag.DivisionList = DivisionList;
+            ViewBag.DepartmentList = GetDropdown_Department(Convert.ToInt32(user.DivisionID));
+            ViewBag.SectionList = GetDropdown_Section(Convert.ToInt32(user.DepartmentID));
+            ViewBag.BuildingList = GetDropdown_Building(Convert.ToInt32(user.DivisionID));
+            ViewBag.ProcessAreaList = GetDropdown_ProcessArea(Convert.ToInt32(user.DivisionID));
+            ViewBag.WorkRequestList = GetDropdown_WorkRequest();
+            ViewBag.WorkClassificationList = GetDropdown_WorkClassification();
+            ViewBag.UserList = GetDropdown_User();
+            ViewBag.CriteriaList = GetDropdown_Criteria();
+            ViewBag.TimeFrameList = GetDropdown_TimeFrame();
+            return View("Request");
+        }
+        public List<DropDown> GetDropdown_Division()
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_Division";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_Department(long DivisionID)
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = DivisionID;
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_Department";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_Section(long DepartmentID)
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = DepartmentID;
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_Section";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_Building(long DivisionID)
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = DivisionID;
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_Building";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_ProcessArea(long DivisionID)
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = DivisionID;
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_ProcessArea";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_WorkRequest()
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_WorkRequest";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<DropDown> GetDropdown_WorkClassification()
+        {
+            List<DropDown> list = new List<DropDown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_WorkClassification";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    DropDown item = new DropDown();
+                    item.ID = Convert.ToInt64(rdr["ID"]);
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<UserDropdown> GetDropdown_User()
+        {
+
+            List<UserDropdown> list = new List<UserDropdown>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.Get_Dropdowns";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@ParentID", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters.Add("@Table", SqlDbType.NVarChar).Value = "M_Users";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserDropdown item = new UserDropdown();
+                    item.EmployeeNo = rdr["ID"].ToString();
+                    item.ItemName = rdr["ItemName"].ToString();
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+            return list;
+        }
+        public List<M_CriteriaHeader> GetDropdown_Criteria()
+        {
+
+            List<M_CriteriaHeader> list = new List<M_CriteriaHeader>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.WorkOrderRequest_GetCriteriaHeaderList";
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    M_CriteriaHeader item = new M_CriteriaHeader();
+                    item.WorkCategory = rdr["WorkCategory"].ToString();
+                    item.CriteriaName = rdr["CriteriaName"].ToString();
+                    item.ID = Convert.ToInt32(rdr["ID"]);
+                    item.CriteriaOrder = Convert.ToInt32(rdr["CriteriaOrder"]);
+                    list.Add(item);
+                }
+            }
+            conn.Close();
+
+            foreach (M_CriteriaHeader Criteria in list)
+            {
+                Criteria.CriteriaDetailsList = getCriteriaDetails(Criteria.ID);
+            }
+
+            return list;
+        }
+        public List<M_CriteriaDetails> getCriteriaDetails(int ID)
+        {
+            List<M_CriteriaDetails> DetailsList = new List<M_CriteriaDetails>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.WorkOrderRequest_GetCriteriaDetailsList";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@CriteriaHeaderID", SqlDbType.NVarChar).Value = ID;
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    M_CriteriaDetails item = new M_CriteriaDetails();
+                    item.ID = Convert.ToInt32(rdr["ID"]);
+                    item.DetailName = rdr["DetailName"].ToString();
+                    item.DetailPoints = Convert.ToInt32(rdr["DetailPoints"]);
+                    item.DetailOrder = Convert.ToInt32(rdr["DetailOrder"]);
+                    DetailsList.Add(item);
+                }
+            }
+            conn.Close();
+            return DetailsList;
+        }
+        public List<M_CriteriaDetails> GetDropdown_TimeFrame()
+        {
+            List<M_CriteriaDetails> DetailsList = new List<M_CriteriaDetails>();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.WorkOrderRequest_GetCriteriaDetailsList";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@CriteriaHeaderID", SqlDbType.NVarChar).Value = "";
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    M_CriteriaDetails item = new M_CriteriaDetails();
+                    item.ID = Convert.ToInt32(rdr["ID"]);
+                    item.DetailName = rdr["DetailName"].ToString();
+                    item.DetailPoints = Convert.ToInt32(rdr["DetailPoints"]);
+                    item.DetailOrder = Convert.ToInt32(rdr["DetailOrder"]);
+                    DetailsList.Add(item);
+                }
+            }
+            conn.Close();
+            return DetailsList;
+        }
+    }
+}

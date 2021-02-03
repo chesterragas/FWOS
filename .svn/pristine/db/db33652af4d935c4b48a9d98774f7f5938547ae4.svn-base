@@ -1,0 +1,227 @@
+﻿@using ROHM_WOS.Areas.WorkOrderRequest.Models;
+@{
+    ViewBag.Title = "Work Order Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Content/assets/plugins/jquery-smart-wizard/src/css/smart_wizard.css" rel="stylesheet" />
+}
+<style>
+    .form-group {
+        border-bottom: 1px solid #eee !important;
+    }
+
+    .custom-file-label {
+        height: 30px;
+        padding: .36rem .75rem;
+        line-height: 1.4;
+    }
+
+        .custom-file-label::after {
+            height: 28px;
+            padding: .375rem .75rem;
+            line-height: 1.4;
+        }
+</style>
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Work Order Request</a></li>
+    <li class="breadcrumb-item active"><a>Request Form</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Work Order Request</h1>
+<!-- end page-header -->
+<div class="row justify-content-center">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse" data-sortable-id="form-plugins-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Request</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <form class="form-horizontal form-bordered" id="frmRequest">
+                    <input type="hidden" class="clear" id="ID">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Date: </label>
+                                <div class="col-md-9">
+                                    <input type="date" id="DateRequest" name="DateRequest" class="form-control form-control-sm clear usr_ctrl input_state">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Work Order No.: </label>
+                                <div class="col-md-9">
+                                    <input type="text" id="WorkOrderTitle" name="WorkOrderTitle" class="form-control form-control-sm clear usr_ctrl input_state">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offset-md-2 offset-lg-2 col-lg-4 col-md-4 col-sm-12 col-xs-12" style="display:none;">
+                            <table class="table table-bordered text-center" id="tbl_users">
+                                <thead class="th-dark">
+                                    <tr>
+                                        <th>CHECKED</th>
+                                        <th>APPROVED</th>
+                                        <th>NOTED</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                        <td class="approved">
+                                            <img src="assets/img/approved.png" height="50px">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td>Requestor</td>
+                                        <td>Dept. Mngr</td>
+                                        <td>Div Mngr</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="wizard">
+                        <!-- begin wizard-step -->
+                        <ul>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-1">
+                                    <span class="number">1</span>
+                                    <span class="info text-ellipsis">
+                                        Requestor Information
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-3 col-sm-4 col-6">
+                                <a href="#step-2">
+                                    <span class="number">2</span>
+                                    <span class="info text-ellipsis">
+                                        Work Description Details
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-3">
+                                    <span class="number">3</span>
+                                    <span class="info text-ellipsis">
+                                        Facilities
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-2 col-sm-4 col-6">
+                                <a href="#step-4">
+                                    <span class="number">4</span>
+                                    <span class="info text-ellipsis">
+                                        Contractor Work
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col-md-3 col-sm-4 col-6">
+                                <a href="#step-5">
+                                    <span class="number">5</span>
+                                    <span class="info text-ellipsis">
+                                        Request Acknowledgement
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end wizard-step -->
+                        <!-- begin wizard-content -->
+                        <div>
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_RequestorInformation.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_WorkDescriptionDestails.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_Facilities.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_ContractorWork.cshtml")
+                            @Html.Partial("~/Areas/WorkOrderRequest/Views/Request/_RequestAcknowledgement.cshtml")
+                        </div>
+                        <!-- end wizard-content -->
+                    </div>
+                </form>
+            </div>
+            <!-- end panel-body -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="mdlCriteria" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mdlCriteria" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Criteria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <h4>ROHM ELECTRONICS PHILS., INC.</h4>
+                <h5>FACILITIES CONTROL DIVISION</h5>
+                <h6>WORK ORDER REQUEST FORM</h6>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-grey-lighter">
+                            <th colspan="4">CRITERIA FOR SETTING TARGET OF QUOTATION COMPLETION</th>
+                            <th>POINTS</th>
+                            <th style="width:90px;">CHECK ITEM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbCriteria">
+                        @{
+                            char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+                            int ctr = 0;
+                        }
+                        @foreach (M_CriteriaHeader CriteriaHeaderObj in ViewBag.CriteriaList)
+                        {
+                            if (CriteriaHeaderObj.CriteriaDetailsList.Count > 0)
+                            {
+                                <tr>
+                                    <td colspan="6" class="f-w-700">@String.Concat(alpha[ctr], '.') @CriteriaHeaderObj.CriteriaName</td>
+                                </tr>
+                                foreach (M_CriteriaDetails DetailsObj in CriteriaHeaderObj.CriteriaDetailsList)
+                                {
+                                    <tr>
+                                        <td colspan="4">
+                                            @DetailsObj.DetailName
+                                        </td>
+                                        <td class="text-right">
+                                            @DetailsObj.DetailPoints
+                                        </td>
+                                        <td>
+                                            <label class="m-l-30 m-b-0"><input type="checkbox" class="CriteriaDetails" name="CriteriaDetails" value="@DetailsObj.ID" /></label>
+                                        </td>
+                                    </tr>
+                                }
+                                ctr++;
+                            }
+                        }
+                        <tr class="bg-grey-lighter" id="trLevelOfPriority">
+                            <td colspan="4">LEVEL OF PRIORITY</td>
+                            <td>SCORE</td>
+                            <td style="width:90px;"><input type="text" class="form-control form-control-sm Remarks" />/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                <a href="javascript:;" class="btn btn-success btn-sm" id="btn_save_cel">
+                    <i class="fa fa-check-circle"></i> Confirm
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Content/assets/plugins/jquery-smart-wizard/src/js/jquery.smartWizard.js"></script>
+    <script src="~/Areas/WorkOrderRequest/Javascripts/WorkOrderRequest.js"></script>
+}

@@ -1,0 +1,367 @@
+﻿
+@{
+    ViewBag.Title = "Utilities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Masters</a></li>
+    <li class="breadcrumb-item active">Utilities</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Utilities</h1>
+<!-- end page-header -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-items">
+                <a href="#utilities" data-toggle="tab" class="nav-link active">
+                    <span class="d-sm-none">Utilities</span>
+                    <span class="d-sm-block d-none">Utilities</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#criteria" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Criteria</span>
+                    <span class="d-sm-block d-none">Criteria</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#details" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Details</span>
+                    <span class="d-sm-block d-none">Details</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="utilities">
+                <form class="form-horizontal form-bordered">
+
+                    <input type="hidden" class="clear" id="UtilitiesID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Utilities Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="UtilitiesName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Status: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="UtilitiesStatus">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_utilities_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_utilities">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_utilities_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_utilities">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_utilities_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_utilities">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_utilities_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_utilities">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered table-striped" id="tbl_utilitiess">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%"></th>
+                                <th width="45%">Utilities Name</th>
+                                <th width="45%">Status</th>
+                                </thead>
+                                <tbody>
+                                <td><input type="checkbox" /></td>
+                                <td>
+                                    <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                                <td>Utilities 01</td>
+                                <td>Active</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_utilities_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_utilities">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="criteria">
+                <form class="form-horizontal form-bordered">
+
+                    <input type="hidden" class="clear" id="CriteriaID">
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 offset-lg-2 offset-md-2">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Utilities Name: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="c_UtilitiesName">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Criteria: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Criteria">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Status: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="CriteriaStatus">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_criterias_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_criterias">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_criterias_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_criterias">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_criterias_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_criterias">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_criterias_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_criterias">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered table-striped" id="tbl_criterias">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%"></th>
+                                <th width="30%">Utilities Name</th>
+                                <th width="30%">Criteria</th>
+                                <th width="30%">Status</th>
+                                </thead>
+                                <tbody>
+                                <td><input type="checkbox" /></td>
+                                <td>
+                                    <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                                <td>Utilities 01</td>
+                                <td>Criteria 01</td>
+                                <td>Active</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_criterias_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_criterias">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="details">
+                <form class="form-horizontal form-bordered">
+
+                    <input type="hidden" class="clear" id="DetailID">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Utilities Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="d_UtilitiesName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Criteria: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="d_Criteria">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Detail: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Detail">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Unit: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Unit">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 offset-lg-6 offset-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Status: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="d_Status">
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_details_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_details">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_details_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_details">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_details_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_details">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_details_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_details">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <table class="table table-bordered table-striped" id="tbl_details">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%"></th>
+                                <th width="18%">Utilities Name</th>
+                                <th width="18%">Criteria</th>
+                                <th width="18%">Detail</th>
+                                <th width="18%">Unit</th>
+                                <th width="18%">Status</th>
+                                </thead>
+                                <tbody>
+                                <td><input type="checkbox" /></td>
+                                <td>
+                                    <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                                <td>Utilities 01</td>
+                                <td>Criteria 01</td>
+                                <td>Detail 1</td>
+                                <td>Unit 1</td>
+                                <td>Active</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_details_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_details">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Areas/MasterModule/Javascripts/Utilities.js"></script>
+
+}
+
+

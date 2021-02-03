@@ -1,0 +1,713 @@
+﻿using ROHM_WOS.Controllers;
+using ROHM_WOS.Models;
+using ROHM_WOS.Models.MasterEntities;
+using ROHM_WOS.Models.MasterProcedure;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
+using static ROHM_WOS.Controllers.Session;
+
+namespace ROHM_WOS.Areas.MasterModule.Controllers
+{
+    [Session]
+    public class UsersController : Controller
+    {
+        // GET: MasterModule/Users
+        //ROHM_WOSDBEntities db = new ROHM_WOSDBEntities();
+        private SmtpClient smtpClient;
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        M_Users user = (M_Users)System.Web.HttpContext.Current.Session["user"];
+      
+        public ActionResult Users()
+        {
+            return View();
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        public ActionResult Changepass(ChangePasswordModel pass)
+        {
+            string result = "Success";
+            if (user.Password == EncodePasswordMd5(pass.currentpass))
+            {
+                //user.Password = EncodePasswordMd5(pass.newpassword);
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandType = CommandType.StoredProcedure;
+                cmdSql.CommandText = @"dbo.MasterChangePassword";
+
+                cmdSql.Parameters.Clear();
+                cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = user.EmployeeNo;
+                cmdSql.Parameters.Add("@Password", SqlDbType.NVarChar).Value = EncodePasswordMd5(pass.newpassword);
+
+                cmdSql.CommandTimeout = 0;
+
+                conn.Open();
+                cmdSql.ExecuteNonQuery();
+                conn.Close();
+                //db.Entry(user).State = EntityState.Modified;
+                //db.SaveChanges();
+            }
+            else
+            {
+                result = "Failed";
+            }
+
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetUsersList()
+        {
+            try
+            {
+                //Server Side Parameter
+                int start = (Convert.ToInt32(Request["start"]) == 0) ? 0 : (Convert.ToInt32(Request["start"]) / Convert.ToInt32(Request["length"])); //Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+
+                //ObjectParameter totalCount = new ObjectParameter("RecordCount", typeof(int));
+
+                List<MasterGET_UserList> list = new List<MasterGET_UserList>();
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandType = CommandType.StoredProcedure;
+                cmdSql.CommandText = @"dbo.MasterGET_UserList";
+
+                cmdSql.Parameters.Clear();
+                cmdSql.Parameters.Add("@PageCount", SqlDbType.Int).Value = start;
+                cmdSql.Parameters.Add("@RowCount", SqlDbType.Int).Value = length;
+                cmdSql.Parameters.Add("@OrderBy", SqlDbType.NVarChar).Value = sortColumnName;
+                cmdSql.Parameters.Add("@Filter", SqlDbType.NVarChar).Value = searchValue;
+                cmdSql.Parameters.Add("@RecordCount", SqlDbType.Int).Value = 0;
+                cmdSql.Parameters["@RecordCount"].Direction = ParameterDirection.Output;
+
+                cmdSql.CommandTimeout = 0;
+
+                conn.Open();
+                //cmdSql.ExecuteNonQuery();
+
+                using (SqlDataReader rdr = cmdSql.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        MasterGET_UserList getter = new MasterGET_UserList();
+                        getter.ID = Convert.ToInt64(rdr["ID"]);//.ToString();
+                        getter.Rownum = Convert.ToInt32(rdr["Rownum"]);//.ToString();
+                        getter.EmployeeNo = rdr["EmployeeNo"].ToString();
+                        getter.FirstName = rdr["FirstName"].ToString();
+                        getter.LastName = rdr["LastName"].ToString();
+                        getter.Email = rdr["Email"].ToString();
+                        getter.MobileNo = rdr["MobileNo"].ToString();
+                        getter.LocalNo = rdr["LocalNo"].ToString();
+                        getter.Password = rdr["Password"].ToString();
+                        getter.UserPhoto = rdr["UserPhoto"].ToString();
+                        getter.Division = rdr["DivisionID"].ToString();
+                        getter.Department = rdr["DepartmentID"].ToString();
+                        getter.CanReceive = Convert.ToBoolean(rdr["CanReceive"]);
+                        getter.Section = rdr["SectionID"].ToString();
+                        getter.IsApproved = Convert.ToInt32(rdr["IsApproved"]);
+
+                        list.Add(getter);
+                    }
+                }
+                
+                int totalCount = Convert.ToInt32(cmdSql.Parameters["@RecordCount"].Value);
+                conn.Close();
+
+                int? totalrows = totalCount;
+                int? totalrowsafterfiltering = totalCount;
+
+
+                return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception err)
+            {
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public ActionResult CreateUsers(M_Users data)
+        {
+            try
+            {
+                data.CreateID = user.EmployeeNo;
+                data.CreateDate = DateTime.Now;
+                data.UpdateID = user.EmployeeNo;
+                data.UpdateDate = DateTime.Now;
+                data.Password = "rohmpassword";
+                data.Password = EncodePasswordMd5(data.Password);
+
+                string Query = "";
+                Query += "INSERT INTO [dbo].[M_Users]" +
+                              "     ([EmployeeNo]"            +
+                              "     ,[FirstName]"           +
+                              "     ,[LastName]"            +
+                              "     ,[Email]"               +
+                              "     ,[MobileNo]" +
+                              "     ,[LocalNo]" +
+                              "     ,[Password]"            +
+                              "     ,[ResetPassword]"       +
+                              "     ,[UserPhoto]"           +
+                              "     ,[DivisionID]"            +
+                              "     ,[DepartmentID]"          +
+                              "     ,[SectionID]"             +
+                              "     ,[IsApproved]" +
+                              "     ,[CanReceive]" +
+                              "     ,[IsDeleted]"           +
+                              "     ,[CreateID]"            +
+                              "     ,[CreateDate]"          +
+                              "     ,[UpdateID]"            +
+                              "     ,[UpdateDate])"         +
+                              "VALUES" +
+                              "     ('"+ data.EmployeeNo      + "'," +
+                              "     '" + data.FirstName     + "'," +
+                              "     '" + data.LastName      + "'," +
+                              "     '" + data.Email         + "'," +
+                              "     '" + data.MobileNo + "'," +
+                              "     '" + data.LocalNo + "'," +
+                              "     '" + data.Password      + "'," +
+                              "     '" + 0                  + "'," +
+                              "     '" + data.UserPhoto     + "'," +
+                              "     '" + data.DivisionID      + "'," +
+                              "     '" + data.DepartmentID    + "'," +
+                              "     '" + data.SectionID       + "'," +
+                              "     '" + 1 + "'," +
+                              "     '" + data.CanReceive + "'," +
+                              "     '" + 0                  + "'," +
+                              "     '" + data.CreateID      + "'," +
+                              "     '" + data.CreateDate    + "'," +
+                              "     '" + data.UpdateID      + "'," +
+                              "     '" + data.UpdateDate    + "')";
+
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = Query;
+
+                conn.Open();
+                cmdSql.ExecuteNonQuery();
+                conn.Close();
+                
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+                
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult UpdateUsers(M_Users data)
+        {
+            try
+            {
+                data.CreateID = user.EmployeeNo;
+                data.CreateDate = DateTime.Now;
+                data.UpdateID = user.EmployeeNo;
+                data.UpdateDate = DateTime.Now;
+              
+
+                string Query = "";
+                Query += "UPDATE [dbo].[M_Users] SET " +
+                              "      [FirstName] =  '" + data.FirstName     + "'" +
+                              "     ,[LastName]=    '" + data.LastName      + "'" +
+                              "     ,[Email]=       '" + data.Email         + "'" +
+                              "     ,[MobileNo]=       '" + data.MobileNo + "'" +
+                              "     ,[LocalNo]=       '" + data.LocalNo + "'" +
+                              "     ,[UserPhoto]=       '" + data.UserPhoto + "'" +
+                              "     ,[CanReceive]=       '" + data.CanReceive + "'" +
+                               
+                              "     ,[DivisionID]=    '" + data.DivisionID      + "'" +
+                              "     ,[DepartmentID]=  '" + data.DepartmentID    + "'" +
+                              "     ,[SectionID]=     '" + data.SectionID       + "'" +
+                              "     ,[UpdateID]=    '" + data.UpdateID      + "'" +
+                              "     ,[UpdateDate]=  '" + data.UpdateDate    + "'" +
+                              " WHERE [EmployeeNo] =   '" + data.EmployeeNo     + "'";
+                
+             
+               SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = Query;
+
+                conn.Open();
+                cmdSql.ExecuteNonQuery();
+                conn.Close();
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult DeleteUsers(List<int> datalist)
+        {
+            try
+            {
+                foreach (int data in datalist)
+                {
+                    //data.CreateID = user.EmployeeNo;
+                    //data.CreateDate = DateTime.Now;
+                    //data.UpdateID = user.EmployeeNo;
+                    //data.UpdateDate = DateTime.Now;
+
+
+                    string Query = "";
+                    Query += " UPDATE [dbo].[M_Users] SET " +
+
+                                  "     [IsDeleted]=     '" + 1 + "'" +
+                                  "     ,[UpdateID]=    '" + user.EmployeeNo + "'" +
+                                  "     ,[UpdateDate]=  '" + DateTime.Now + "'" +
+                                  " WHERE [ID] =   '" + data + "'";
+
+                    SqlCommand cmdSql = new SqlCommand();
+                    cmdSql.Connection = conn;
+                    cmdSql.CommandTimeout = 0;
+                    cmdSql.CommandText = Query;
+
+                    conn.Open();
+                    cmdSql.ExecuteNonQuery();
+                    conn.Close();
+                }
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public string EncodePasswordMd5(string pass) //Encrypt using MD5    
+        {
+            Byte[] originalBytes;
+            Byte[] encodedBytes;
+            MD5 md5;
+            //Instantiate MD5CryptoServiceProvider, get bytes for original password and compute hash (encoded password)    
+            md5 = new MD5CryptoServiceProvider();
+            originalBytes = ASCIIEncoding.Default.GetBytes(pass);
+            encodedBytes = md5.ComputeHash(originalBytes);
+            //Convert encoded bytes back to a 'readable' string    
+            return BitConverter.ToString(encodedBytes).Replace("-", string.Empty);
+        }
+
+        public void PageAccessGiver(List<PA_Users> PA_userpage)
+        {
+            List<PA_Pages> pagelist = new List<PA_Pages>();
+            //pagelist = (from c in db.PA_Pages select c).ToList();
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandText = "SELECT * FROM PA_Pages";
+
+            conn.Open();
+            //cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    PA_Pages getter = new PA_Pages();
+                    getter.ID = Convert.ToInt64(rdr["ID"]);
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    
+                    pagelist.Add(getter);
+                }
+            }
+            string Query = "";
+            //foreach (PA_Pages page in pagelist)
+            //{
+            //    Query += "INSERT INTO [dbo].[M_Users]" +
+            //                     "     ([PageID]         " +
+            //                     "     ,[PageAccess]     " +
+            //                     "     ,[EmployeeNo]      )" +
+            //             "VALUES" +
+            //                     "     ('" + page.ID + "'," +
+            //                     "      '" + page.PageIndex + "'," +
+            //                     "      '" + page.LastName + "'," +
+
+
+
+                //PA_Users user = new PA_Users();
+                //user.PageID = page.ID;
+                //user.PageAccess = true;
+                //user.EmployeeNo = EmployeeNo;
+                //db.PA_Users.Add(user);
+                //db.SaveChanges();
+            //}
+
+            //conn.Open();
+            //cmdSql.ExecuteNonQuery();
+            //conn.Close();
+        }
+
+        public ActionResult GetPageAccess(string EmployeeNo)
+        {
+            List<UserPageAccess> MasterPageList = new List<UserPageAccess>();
+            List<UserPageAccess> TransactionPageList = new List<UserPageAccess>();
+
+
+            SqlCommand cmdSql = new SqlCommand();
+            #region Master Page
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.M_SP_PageandAccess";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = EmployeeNo;
+            cmdSql.Parameters.Add("@PageModule", SqlDbType.NVarChar).Value = "Master";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            //cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserPageAccess getter = new UserPageAccess();
+                    getter.ID = Convert.ToInt64(rdr["ID"]);
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    getter.AccessType = (rdr["AccessType"] != null) ? Convert.ToBoolean(rdr["AccessType"]) : false;
+                    MasterPageList.Add(getter);
+                }
+            }
+            conn.Close();
+            #endregion
+
+            #region Transaction Page
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.M_SP_PageandAccess";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = EmployeeNo;
+            cmdSql.Parameters.Add("@PageModule", SqlDbType.NVarChar).Value = "Transaction";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            //cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserPageAccess getter = new UserPageAccess();
+                    getter.ID = Convert.ToInt64(rdr["ID"]);
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    getter.AccessType = (rdr["AccessType"] != null) ? Convert.ToBoolean(rdr["AccessType"]) : false;
+                    TransactionPageList.Add(getter);
+                }
+            }
+            conn.Close();
+            #endregion
+
+            int MasterGoodcount = MasterPageList.Where(x => x.AccessType == true).Count();
+            int TransactionGoodcount = TransactionPageList.Where(x => x.AccessType == true).Count();
+
+            return Json(new
+            {
+                MasterPageList = MasterPageList,
+                TransactionPageList = TransactionPageList
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdatePageAccess(List<PA_Users> PA_userpage)
+        {
+
+            foreach (PA_Users u in PA_userpage)
+            {
+                PA_Users userp = new PA_Users();
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = "SELECT * FROM PA_Users WHERE EmployeeNo = '" + u.EmployeeNo + "' AND PageID = '" + u.PageID + "'";
+
+                conn.Open();
+
+                using (SqlDataReader rdr = cmdSql.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        userp.ID = Convert.ToInt64(rdr["ID"]);
+                        userp.PageID = Convert.ToInt32(rdr["PageID"]);
+                        userp.PageAccess = Convert.ToBoolean(rdr["PageAccess"]);
+                        userp.EmployeeNo = rdr["EmployeeNo"].ToString();
+
+                    }
+                }
+                if (userp.EmployeeNo != null)
+                {
+                    cmdSql.CommandText = "UPDATE PA_Users SET PageAccess = '" + u.PageAccess + "' WHERE EmployeeNo = '" + u.EmployeeNo + "' AND PageID = '" + u.PageID + "'";
+                    cmdSql.ExecuteNonQuery();
+
+                   
+                }
+                else
+                {
+                    cmdSql.CommandText = "INSERT INTO [dbo].[PA_Users]" +
+                                            "           ([PageID]" +
+                                            "           ,[PageAccess]" +
+                                            "           ,[EmployeeNo])" +
+                                            "VALUES" +
+                                           "     ('" + u.PageID + "'," +
+                                           "     '" + u.PageAccess + "'," +
+                                           "     '" + u.EmployeeNo + "')";
+                    cmdSql.ExecuteNonQuery();
+                    
+                }
+
+                conn.Close();
+            }
+
+            LoginController a = new LoginController();
+            a.RefreshPageAccess(PA_userpage[0].EmployeeNo);
+            return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult ApprovedUsers(List<int> datalist)
+        {
+            try
+            {
+                foreach (int data in datalist)
+                {
+                    string Query = "";
+                    Query += " UPDATE [dbo].[M_Users] SET " +
+                                  "     [IsApproved]=     '" + 1 + "'" +
+                                  "     ,[ApprovedRejectBy]=     '" + user.EmployeeNo + "'" +
+                                  "     ,[ApprovedRejectDate]=     '" + DateTime.Now + "'" +
+                                  "     ,[UpdateID]=    '" + user.EmployeeNo + "'" +
+                                  "     ,[UpdateDate]=  '" + DateTime.Now + "'" +
+                                  " WHERE [ID] =   '" + data + "'";
+
+                    SqlCommand cmdSql = new SqlCommand();
+                    cmdSql.Connection = conn;
+                    cmdSql.CommandTimeout = 0;
+                    cmdSql.CommandText = Query;
+
+                    conn.Open();
+                    cmdSql.ExecuteNonQuery();
+                    conn.Close();
+
+
+                    #region
+                    cmdSql.Connection = conn;
+                    cmdSql.CommandTimeout = 0;
+                    cmdSql.CommandText = "SELECT Email FROM M_Users WHERE ID = '"+data+"'";
+                    
+                    cmdSql.CommandTimeout = 0;
+
+                    conn.Open();
+                    //cmdSql.ExecuteNonQuery();
+                    List<string> EmailList = new List<string>();
+                    using (SqlDataReader rdr = cmdSql.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            string email = rdr["Email"].ToString();
+                            EmailList.Add(email);
+                            
+                        }
+                    }
+                    
+                    conn.Close();
+                    #endregion
+
+                    string EmailCredentials = ConnectionString.EmailCredentials;
+                    string[] emaildetails = EmailCredentials.Split(';');
+                    SendMail(emaildetails,EmailList);
+                }
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult RejectUsers(List<int> datalist)
+        {
+            try
+            {
+                int index = 0;
+                foreach (int data in datalist)
+                {
+                    //data.UpdateID = user.EmployeeNo;
+                    //data.UpdateDate = DateTime.Now;
+
+
+                    string Query = "";
+                    Query += " UPDATE [dbo].[M_Users] SET " +
+                                  "     [IsApproved]=     '" + 2 + "'" +
+                                  "     ,[ApprovedRejectBy]=     '" + user.EmployeeNo + "'" +
+                                  "     ,[ApprovedRejectDate]=     '" + DateTime.Now + "'" +
+                                  "     ,[UpdateID]=    '" + user.EmployeeNo + "'" +
+                                  "     ,[UpdateDate]=  '" + DateTime.Now + "'" +
+                                  " WHERE [ID] =   '" + data + "'";
+
+                    SqlCommand cmdSql = new SqlCommand();
+                    cmdSql.Connection = conn;
+                    cmdSql.CommandTimeout = 0;
+                    cmdSql.CommandText = Query;
+
+                    conn.Open();
+                    cmdSql.ExecuteNonQuery();
+                    conn.Close();
+                }
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void SendMail(string[] emaildetails, List<string> receivers)
+        {
+
+           
+            this.smtpClient = new SmtpClient();
+            this.smtpClient.UseDefaultCredentials = false;
+            this.smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            this.smtpClient.Host = emaildetails[0];
+            this.smtpClient.Port = Convert.ToInt32(emaildetails[1]);
+            this.smtpClient.Credentials = new NetworkCredential(emaildetails[2], emaildetails[3]);
+            this.smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+            string msg = string.Empty;
+            msg = "Your user access has been approved";
+
+            String vhtml = String.Empty;
+            StreamReader reader = new StreamReader(Server.MapPath("/EmailTemplate/email.html"));
+            vhtml = reader.ReadToEnd();
+            vhtml = vhtml.Replace("{{{body}}}", msg);
+            /* RECIPIENT */
+            foreach(string email in receivers)
+            {
+                mail.To.Add(email);
+            }
+            mail.From = new MailAddress("FWOSMail@seiko-it.com.ph");
+            mail.IsBodyHtml = true;
+            mail.Body = vhtml;
+            this.smtpClient.Send(mail);
+        }
+
+        [HttpPost]
+        public ActionResult UploadEmployeePhoto()
+        {
+            #region Save to Server
+            bool isSuccess = false;
+            string serverMessage = string.Empty;
+            var fileOne = Request.Files[0] as HttpPostedFileBase;
+            string uploadPath = Server.MapPath(@"~/PictureResources/UsersPhoto/");
+            string newFileOne = Path.Combine(uploadPath, fileOne.FileName);
+
+            fileOne.SaveAs(HttpContext.Server.MapPath("~/PictureResources/UsersPhoto/") + Path.GetFileName(Regex.Replace(fileOne.FileName, @"\s+", "")));
+
+
+            #endregion
+
+            #region ImageSet
+
+            string[] data = fileOne.FileName.Split('\\');
+          
+
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.MasterGET_UserPhoto";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = user.EmployeeNo;
+            cmdSql.Parameters.Add("@Photo", SqlDbType.NVarChar).Value = Regex.Replace(data[data.Length - 1], @"\s+", "");
+          
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+
+            conn.Close();
+
+            #endregion
+
+       
+            M_Users usercheck = new M_Users();
+            cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.LoginVerification";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = user.EmployeeNo;
+            cmdSql.Parameters.Add("@Password", SqlDbType.NVarChar).Value = user.Password;
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    usercheck.EmployeeNo = rdr["EmployeeNo"].ToString();
+                    usercheck.FirstName = rdr["FirstName"].ToString();
+                    usercheck.LastName = rdr["LastName"].ToString();
+                    usercheck.Email = rdr["Email"].ToString();
+                    usercheck.Password = rdr["Password"].ToString();
+                    usercheck.UserPhoto = rdr["UserPhoto"].ToString();
+                    usercheck.DivisionID = Convert.ToInt64(rdr["DivisionID"]);//.ToString();
+                    usercheck.DepartmentID = Convert.ToInt64(rdr["DepartmentID"]);//.ToString();
+                    usercheck.SectionID = Convert.ToInt64(rdr["SectionID"]);//.ToString();
+                }
+            }
+
+            conn.Close();
+            System.Web.HttpContext.Current.Session["user"] = usercheck;
+
+            return Json(new { wew = "" }, JsonRequestBehavior.AllowGet);
+        }
+    }
+}

@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Holidays";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Masters</a></li>
+    <li class="breadcrumb-item active">Holidays</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Holidays</h1>
+<!-- end page-header -->
+
+<div class="row">
+    <div class="col-12">
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs" id="holidaytab">
+            <li class="nav-items">
+                <a href="#holiday" data-toggle="tab" class="nav-link active" id="Holidays">
+                    <span class="d-sm-none">Normal Holidays</span>
+                    <span class="d-sm-block d-none">Normal Holidays</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#holiday" data-toggle="tab" class="nav-link" id="Companyholidays">
+                    <span class="d-sm-none">Company Holiday</span>
+                    <span class="d-sm-block d-none">Company Holiday</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="holiday">
+
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form-horizontal form-bordered" id="holidaysForm">
+                            <div class="row">
+                                <input type="hidden" class="clear" id="ID" name="ID">
+                                <input type="hidden" class="clear" id="Type" name="Type">
+                                <label class="col-md-2 col-form-label">Holiday Name: </label>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl_holidays input_state" id="HolidayName" name="HolidayName">
+                                </div>
+
+                                <label class="col-md-2 col-form-label">Holiday Date: </label>
+                                <div class="col-md-3">
+                                    <input type="date" class="form-control form-control-sm clear usr_ctrl_holidays input_state" id="HolidayDate" name="HolidayDate">
+                                </div>
+
+                            </div>
+                            <br>
+
+                            <br>
+                            <div class="row justify-content-center">
+                                <div class="col-md-2 mb-3" id="btn_add_holidays_div">
+                                    <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_holidays">
+                                        <i class="fa fa-plus"></i> Add New
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_save_holidays_div">
+                                    <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_holidays">
+                                        <i class="fas fa-save"></i> Save
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_clear_holidays_div">
+                                    <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_holidays">
+                                        <i class="fa fa-redo"></i> Clear
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3" id="btn_cancel_holidays_div">
+                                    <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_holidays">
+                                        <i class="fa fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered table-striped table-hover" id="tbl_holidays" width="100%">
+                                    <thead class="th-dark">
+                                    <th></th>
+                                    <th><input type="checkbox" /></th>
+                                    <th>Holiday</th>
+                                    <th>Date</th>
+
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_delete_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_holidays">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- end tab-pane -->
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+<script src="~/Content/assets/plugins/bootstrap-daterangepicker/moment.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/Holidays.js"></script>
+
+}
+

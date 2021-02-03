@@ -1,0 +1,87 @@
+﻿<div id="step-4">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Company Name: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="comp_name">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Contractor: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="contractor">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Date Requested: </label>
+                <div class="col-md-9">
+                    <input type="date" class="form-control form-control-sm clear usr_ctrl input_state" id="date_requested">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Quotation Submission Date: </label>
+                <div class="col-md-9">
+                    <input type="date" class="form-control form-control-sm clear usr_ctrl input_state" id="submission_date">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Survey Date/Time: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="survey_date">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            <table class="table table-bordered table-striped" id="tbl_contructor">
+                <thead class="th-dark">
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th></th>
+                        <th>Company Name</th>
+                        <th>Contractor</th>
+                        <th>Date Requested</th>
+                        <th>Survey Date/time</th>
+                        <th>Quotation Submission</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                            <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </td>
+                        <td>Company 1</td>
+                        <td>Contractor 1</td>
+                        <td>2021-01-01</td>
+                        <td>18:00</td>
+                        <td>2021-01-01</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-3 mb-3">
+            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_contructor">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </div>
+    </div>
+</div>

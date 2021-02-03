@@ -1,0 +1,56 @@
+--SELECT *
+--FROM WO_RequestorInformation WHERE ID = 1
+--SELECT *
+--FROM WO_ApprovalStatus
+--SELECT *
+--FROM WO_ApprovalLogs
+
+
+ALTER PROCEDURE [dbo].[WorkOrderRequest_UpdateLevel] 
+	--DECLARE
+	@ID BIGINT,-- = 1
+	@EmployeeNo NVARCHAR(50),-- = '14109'
+	@ApprovedReject INT,-- = '1'
+	@Remarks NVARCHAR(MAX)
+AS
+BEGIN
+
+
+DECLARE @CurrentLevel INT;
+SET @CurrentLevel = (SELECT TOP 1 ForApproval FROM WO_RequestorInformation WHERE ID = @ID)
+
+UPDATE WO_RequestorInformation 
+SET ForApproval = @CurrentLevel + 1
+WHERE ID = @ID
+
+UPDATE WO_ApprovalStatus
+SET ApprovedDisapproved = @ApprovedReject,
+	ApprovedDisapporvedID = @EmployeeNo,
+	ApprovedDisapprovedDate = GETDATE()
+WHERE EmployeeNo = @EmployeeNo
+
+IF @Remarks <> ''
+BEGIN
+
+INSERT INTO [dbo].[WO_ApprovalLogs]
+           ([RequestorInformationID]
+           ,[EmployeeNo]
+           ,[Remarks]
+           ,[ColorFlag]
+           ,[CreateID]
+           ,[CreateDate]
+           ,[UpdateID]
+           ,[UpdateDate])
+     VALUES
+           (@ID
+           ,@EmployeeNo
+           ,@Remarks
+           ,1
+           ,@EmployeeNo
+           ,GETDATE()
+           ,@EmployeeNo
+           ,GETDATE())
+
+END
+
+END

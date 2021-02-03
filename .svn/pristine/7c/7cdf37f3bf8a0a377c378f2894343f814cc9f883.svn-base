@@ -1,0 +1,127 @@
+﻿using ROHM_WOS.Controllers;
+using ROHM_WOS.Models.MasterEntities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using ROHM_WOS.Areas.WorkOrderApproval.Models;
+
+namespace ROHM_WOS.Areas.WorkOrderApproval.Controllers
+{
+    public class WorkOrderApprovalController : Controller
+    {
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        M_Users user = (M_Users)System.Web.HttpContext.Current.Session["user"];
+        [Session]
+        // GET: WorkOrderApproval/WorkOrderApproval
+        public ActionResult WorkOrderApproval()
+        {
+            return View();
+        }
+
+        public ActionResult GetWorkOrderAppovalList()
+        {
+            try
+            {
+                //Server Side Parameter
+                int start = (Convert.ToInt32(Request["start"]) == 0) ? 0 : (Convert.ToInt32(Request["start"]) / Convert.ToInt32(Request["length"]));
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+
+                List<P_WorkOrderApprovalList> list = new List<P_WorkOrderApprovalList>();
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandType = CommandType.StoredProcedure;
+                cmdSql.CommandText = @"dbo.WorkOrderApprovalGET_WorkOrderApprovalList";
+
+                cmdSql.Parameters.Clear();
+                cmdSql.Parameters.Add("@PageCount", SqlDbType.Int).Value = start;
+                cmdSql.Parameters.Add("@RowCount", SqlDbType.Int).Value = length;
+                cmdSql.Parameters.Add("@OrderBy", SqlDbType.NVarChar).Value = sortColumnName;
+                cmdSql.Parameters.Add("@Filter", SqlDbType.NVarChar).Value = searchValue;
+                cmdSql.Parameters.Add("@RecordCount", SqlDbType.Int).Value = 0;
+                cmdSql.Parameters["@RecordCount"].Direction = ParameterDirection.Output;
+
+                cmdSql.CommandTimeout = 0;
+
+                conn.Open();
+                //cmdSql.ExecuteNonQuery();
+
+                using (SqlDataReader rdr = cmdSql.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        P_WorkOrderApprovalList getter = new P_WorkOrderApprovalList();
+                        getter.ID = Convert.ToInt32(rdr["ID"]);
+                        getter.Division = rdr["DivisionName"].ToString();
+                        getter.Department = rdr["DepartmentName"].ToString();
+                        getter.Section = rdr["SectionName"].ToString();
+                        getter.Building = rdr["BuildingName"].ToString();
+                        getter.Floor = rdr["FloorName"].ToString();
+                        getter.ProcessArea = rdr["ProcessName"].ToString();
+                        getter.ReferenceNo = rdr["ReferenceNo"].ToString();
+                        getter.WorkOrderNo = rdr["WorkOrderNo"].ToString();
+                        getter.Requestor = rdr["Requestor"].ToString();
+                        getter.RequestAge = rdr["RequestAge"].ToString();
+
+                        list.Add(getter);
+                    }
+                }
+
+                int totalCount = Convert.ToInt32(cmdSql.Parameters["@RecordCount"].Value);
+                conn.Close();
+
+                int? totalrows = totalCount;
+                int? totalrowsafterfiltering = totalCount;
+
+
+                return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception err)
+            {
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public ActionResult GetDetails(int ID)
+        {
+            M_Users user = (M_Users)System.Web.HttpContext.Current.Session["user"];
+            //string User = Session["user"].ToString();
+
+            string buttonStatus = "";
+            string buttonHideShow = "";
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.WorkOrderRequest_ApprovalLevel";
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@workorderID", SqlDbType.NVarChar).Value = ID;
+            cmdSql.Parameters.Add("@currentLoginID", SqlDbType.NVarChar).Value = user.EmployeeNo;
+            cmdSql.Parameters.Add("@buttonStatus", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters.Add("@buttonHideShow", SqlDbType.NVarChar).Value = "";
+            cmdSql.Parameters["@buttonStatus"].Direction = ParameterDirection.Output;
+            cmdSql.Parameters["@buttonHideShow"].Direction = ParameterDirection.Output;
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            buttonStatus = (cmdSql.Parameters["@buttonStatus"].Value.ToString());
+            buttonHideShow = (cmdSql.Parameters["@buttonHideShow"].Value.ToString());
+
+            conn.Close();
+            return Json(new
+            {
+                buttonStatus = buttonStatus,
+                buttonHideShow = buttonHideShow
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+    }
+}

@@ -1,0 +1,64 @@
+USE [ROHM_WOSDB]
+GO
+
+/****** Object:  StoredProcedure [dbo].[MasterGET_DivisionList]    Script Date: 1/22/2021 9:55:09 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		Chester R.
+-- Create date: 06-23-2020
+-- Description:	GET Error Logs with name
+-- =============================================
+
+ALTER PROCEDURE [dbo].[MasterGET_SectionList] 
+	--DECLARE
+	@PageCount INT = 0,
+	@RowCount INT = 10,
+	@OrderBy NVARCHAR(max) = '',
+	@Filter NVARCHAR(max) = '',
+	@RecordCount INT OUT
+AS
+BEGIN
+
+SELECT  ROW_NUMBER() OVER(ORDER BY (select 0) DESC) AS Rownum,
+		MS.*,
+		MS.DepartmentID,
+		MD.DepartmentName,
+		MDD.DivisionName,
+		MDD.ID AS DivisionID
+FROM M_Section MS
+LEFT JOIN M_Department MD
+ON MS.DepartmentID = MD.ID
+LEFT JOIN M_Division MDD
+ON MD.DivisionID = MDD.ID
+WHERE (
+MS.SectionName LIKE '%'+@Filter+'%'
+OR @Filter = ''
+OR @Filter IS NULL
+)
+AND MS.IsDeleted <> 1
+ORDER BY ID
+OFFSET @PageCount * (@RowCount) ROWS
+FETCH NEXT @RowCount ROWS ONLY	
+
+
+SET @RecordCount = (SELECT COUNT(*) FROM M_Section WHERE IsDeleted <> 1)
+
+END
+
+
+
+
+
+
+
+
+
+
+GO
+
+

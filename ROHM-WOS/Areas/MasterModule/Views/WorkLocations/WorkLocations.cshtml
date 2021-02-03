@@ -1,0 +1,540 @@
+﻿@{
+    ViewBag.Title = "WorkLocations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Masters</a></li>
+    <li class="breadcrumb-item active">Work Location</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Work Location</h1>
+<!-- end page-header -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs">
+            @*<li class="nav-items">
+                    <a href="#location" data-toggle="tab" class="nav-link active">
+                        <span class="d-sm-none">Location</span>
+                        <span class="d-sm-block d-none">Location</span>
+                    </a>
+                </li>*@
+            <li class="nav-items">
+                <a href="#request" data-toggle="tab" class="nav-link active">
+                    <span class="d-sm-none">Work Request</span>
+                    <span class="d-sm-block d-none">Work Request</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#classification" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Classification</span>
+                    <span class="d-sm-block d-none">Classification</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#building" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Building</span>
+                    <span class="d-sm-block d-none">Building</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#floor" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Floor</span>
+                    <span class="d-sm-block d-none">Floor</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#processarea" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Process Area</span>
+                    <span class="d-sm-block d-none">Process Area</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            @*<div class="tab-pane fade active show" id="location">
+                    <form class="form-horizontal form-bordered">
+
+                        <input type="hidden" class="clear" id="LocationID">
+
+                        <div class="row justify-content-center">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label">Building: </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Building">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label">Floor: </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Floor">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label">ProcessArea: </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="ProcessArea">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group row">
+                                    <label class="col-md-4 col-form-label">Status: </label>
+                                    <div class="col-md-8">
+                                        <select class="form-control form-control-sm clear usr_ctrl input_state" id="LocationStatus">
+                                            <option value=""></option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_add_location_div">
+                                <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_location">
+                                    <i class="fa fa-plus"></i> Add New
+                                </button>
+                            </div>
+                            <div class="col-md-2 mb-3" id="btn_save_location_div">
+                                <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_location">
+                                    <i class="fas fa-save"></i> Save
+                                </button>
+                            </div>
+                            <div class="col-md-2 mb-3" id="btn_clear_location_div">
+                                <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_location">
+                                    <i class="fa fa-redo"></i> Clear
+                                </button>
+                            </div>
+                            <div class="col-md-2 mb-3" id="btn_cancel_location_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_location">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <table class="table table-bordered table-striped" id="tbl_location">
+                                    <thead class="th-dark">
+                                    <th width="5%"><input type="checkbox" /></th>
+                                    <th width="5%"></th>
+
+                                    <th width="20%">Building</th>
+                                    <th width="20%">Floor</th>
+                                    <th width="20%">Process Area</th>
+                                    <th width="20%">Status</th>
+                                    </thead>
+                                    <tbody>
+                                    <td><input type="checkbox" /></td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                    <td>BLDG 01</td>
+                                    <td>1</td>
+                                    <td>Production</td>
+                                    <td>Active</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-md-2 mb-3" id="btn_delete_location_div">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_location">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>*@
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="request">
+                <form class="form-horizontal form-bordered" id="requestForm">
+
+                    <input type="hidden" class="clear" id="RequestID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Request: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="WorkRequestName" name="WorkRequestName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_request_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_request">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_request_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_request">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_request_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_request">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_request_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_request">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered table-striped" id="tbl_request" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="45%">Modify</th>
+                                <th width="45%">Request</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_request_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_request">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="classification">
+                <form class="form-horizontal form-bordered" id="ClassificationForm">
+
+                    <input type="hidden" class="clear" id="ClassificationID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Classification: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="WorkClassificationName" name="WorkClassificationName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_classification_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_classification">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_classification_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_classification">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_classification_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_classification">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_classification_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_classification">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 table=responsive">
+                            <table class="table table-bordered table-striped" id="tbl_classification" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%">
+                                    <input type="checkbox" id="checkall_classification" class="filled-in chk-col-light-blue" />
+                                    <label class="checker" for="checkall_classification"></label>
+                                </th>
+                                <th width="45%">Modify</th>
+                                <th width="45%">Classification</th>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_classification_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_classification">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="building">
+                <form class="form-horizontal form-bordered" id="BuildingForm">
+
+                    <input type="hidden" class="clear" id="BuildingID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Building: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="BuildingName" name="BuildingName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_Building_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_Building">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_Building_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_Building">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_Building_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_Building">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_Building_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_Building">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 table=responsive">
+                            <table class="table table-bordered table-striped" id="tbl_Building" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%">
+                                    <input type="checkbox" id="checkall_Building" class="filled-in chk-col-light-blue" />
+                                    <label class="checker" for="checkall_Building"></label>
+                                </th>
+                                <th width="45%">Modify</th>
+                                <th width="45%">Building</th>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_Building_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_Building">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="floor">
+                <form class="form-horizontal form-bordered" id="FloorForm">
+
+                    <input type="hidden" class="clear" id="FloorID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Building: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="BuildingIDdropdown"></select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Floor: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="FloorName" name="FloorName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_Floor_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_Floor">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_Floor_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_Floor">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_Floor_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_Floor">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_Floor_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_Floor">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 table=responsive">
+                            <table class="table table-bordered table-striped" id="tbl_Floor" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%">
+                                    <input type="checkbox" id="checkall_Floor" class="filled-in chk-col-light-blue" />
+                                    <label class="checker" for="checkall_Floor"></label>
+                                </th>
+                                <th width="25%">Modify</th>
+                                <th width="25%">Building</th>
+                                <th width="25%">Floor</th>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_Floor_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_Floor">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="processarea">
+                <form class="form-horizontal form-bordered" id="ProcessAreaForm">
+
+                    <input type="hidden" class="clear" id="ProcessAreaID">
+
+                    <div class="row justify-content-center mb-3">
+                        
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Process Area: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="ProcessAreaName" name="ProcessAreaName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_ProcessArea_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_ProcessArea">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_ProcessArea_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_ProcessArea">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_ProcessArea_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_ProcessArea">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_ProcessArea_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_ProcessArea">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 table=responsive">
+                            <table class="table table-bordered table-striped" id="tbl_ProcessArea" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%">
+                                    <input type="checkbox" id="checkall_ProcessArea" class="filled-in chk-col-light-blue" />
+                                    <label class="checker" for="checkall_ProcessArea"></label>
+                                </th>
+                                <th width="25%">Modify</th>
+                                <th width="25%">Division</th>
+                                <th width="25%">ProcessArea</th>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_ProcessArea_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_ProcessArea">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+
+    @*<script src="~/Areas/MasterModule/Javascripts/WorkLocation.js"></script>*@
+    <script src="~/Areas/MasterModule/Javascripts/WorkClassification.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/WorkRequest.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/Building.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/Floor.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/ProcessArea.js"></script>
+
+}
+

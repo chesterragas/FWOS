@@ -1,0 +1,290 @@
+﻿
+@{
+    ViewBag.Title = "Division";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Division / Department / Section</h1>
+<!-- end page-header -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-items">
+                <a href="#division" data-toggle="tab" class="nav-link active">
+                    <span class="d-sm-none">Division</span>
+                    <span class="d-sm-block d-none">Division</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#department" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Department</span>
+                    <span class="d-sm-block d-none">Department</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#section" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Section</span>
+                    <span class="d-sm-block d-none">Section</span>
+                </a>
+            </li>
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="division">
+                <form class="form-horizontal form-bordered" id="DivisionForm">
+
+                    <input type="hidden" class="clear" id="DivisionID">
+
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Division Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="DivisionName" name="DivisionName">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_division_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_division">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_division_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_division">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_division_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_division">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_division_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_division">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered table-striped" id="tbl_division" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%">Modify</th>
+                                <th width="45%">Division Name</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_division_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_division">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="department">
+                <form class="form-horizontal form-bordered" id="DepartmentForm">
+
+                    <input type="hidden" class="clear" id="DepartmentID">
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 offset-lg-2 offset-md-2">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Division Name: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="d_DivisionID">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Department: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="DepartmentName" name="DepartmentName">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_department_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_department">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_department_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_department">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_department_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_department">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_department_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_department">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <table class="table table-bordered table-striped" id="tbl_department" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%">Modify</th>
+                                <th width="30%">Division Name</th>
+                                <th width="30%">Department</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_department_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_department">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="section">
+                <form class="form-horizontal form-bordered" id="SectionForm">
+
+                    <input type="hidden" class="clear" id="SectionID">
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Division Name: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state" id="sectionDivisionID" name="sectionDivisionID">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Department: </label>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state"  id="sectionDepartmentID" name="sectionDepartmentID">
+                                        <option value=""></option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Section: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="SectionName" name="SectionName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <div class="col-md-8" hidden>
+                                    <select class="form-control form-control-sm clear usr_ctrl input_state">
+                                        <option value=""></option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_section_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add_section">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_section_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_section">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_section_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear_section">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_section_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel_section">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <table class="table table-bordered table-striped" id="tbl_section" width="100%">
+                                <thead class="th-dark">
+                                <th width="5%"><input type="checkbox" /></th>
+                                <th width="5%">Modify</th>
+                                <th width="20%">Division Name</th>
+                                <th width="20%">Department</th>
+                                <th width="20%">Section</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_delete_section_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_section">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end tab-pane -->
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Areas/MasterModule/Javascripts/Division.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/Department.js"></script>
+    <script src="~/Areas/MasterModule/Javascripts/Section.js"></script>
+}

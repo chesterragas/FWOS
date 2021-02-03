@@ -1,0 +1,340 @@
+﻿
+@{
+    ViewBag.Title = "WorkOrderApproval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Work Order Approval</a></li>
+    <li class="breadcrumb-item active"></a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Work Order Approval</h1>
+<!-- end page-header -->
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+
+        <!-- begin nav-tabs -->
+        <ul class="nav nav-tabs">
+            @*<li class="nav-items">
+        <a href="#forrevision" data-toggle="tab" class="nav-link active">
+            <span class="d-sm-none">Work Order List</span>
+            <span class="d-sm-block d-none">Work Order List</span>
+        </a>
+         </li>*@
+            <li class="nav-items">
+                <a href="#forapproval" data-toggle="tab" class="nav-link active">
+                    <span class="d-sm-none">For Approval</span>
+                    <span class="d-sm-block d-none">For Approval</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#ongoing" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">On-Going</span>
+                    <span class="d-sm-block d-none">On-Going</span>
+                </a>
+            </li>
+            <li class="nav-items">
+                <a href="#approved" data-toggle="tab" class="nav-link">
+                    <span class="d-sm-none">Approved</span>
+                    <span class="d-sm-block d-none">Approved</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- end nav-tabs -->
+        <!-- begin tab-content -->
+        <div class="tab-content">
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade active show" id="forapproval">
+
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-inverse">
+
+
+                            <div class="panel-body">
+
+
+                                <div class="row justify-content-center">
+                                    <table class="table table-bordered table-striped" id="tbl_WorkOrder">
+                                        <thead class="th-dark">
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                                    <label class="checker" for="checkall_emp"></label>
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>Division</th>
+                                                <th>Department</th>
+                                                <th>Section</th>
+                                                <th>Building</th>
+                                                <th>Floor</th>
+                                                <th>Process/Area</th>
+                                                <th>Reference No</th>
+                                                <th>Work Order No</th>
+                                                <th>Requestor</th>
+                                                <th>Request Age</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="col-md-2 mb-3" id="btn_delete_div">
+                                        <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="approved">
+
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-inverse">
+
+
+                            <div class="panel-body">
+
+
+                                <div class="row justify-content-center">
+                                    <table class="table table-bordered table-striped" id="tbl_WorkOrder_approved">
+                                        <thead class="th-dark">
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                                    <label class="checker" for="checkall_emp"></label>
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>Division</th>
+                                                <th>Department</th>
+                                                <th>Section</th>
+                                                <th>Building</th>
+                                                <th>Floor</th>
+                                                <th>Process/Area</th>
+                                                <th>Reference No</th>
+                                                <th>Work Order No</th>
+                                                <th>Requestor</th>
+                                                <th>Request Age</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="col-md-2 mb-3" id="btn_delete_div">
+                                        <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            <div class="tab-pane fade" id="ongoing">
+
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                        <div class="panel panel-inverse">
+
+
+                            <div class="panel-body">
+
+
+                                <div class="row justify-content-center">
+                                    <table class="table table-bordered table-striped" id="tbl_WorkOrder_ongoing">
+                                        <thead class="th-dark">
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                                    <label class="checker" for="checkall_emp"></label>
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>Division</th>
+                                                <th>Department</th>
+                                                <th>Section</th>
+                                                <th>Building</th>
+                                                <th>Floor</th>
+                                                <th>Process/Area</th>
+                                                <th>Reference No</th>
+                                                <th>Work Order No</th>
+                                                <th>Requestor</th>
+                                                <th>Request Age</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <div class="col-md-2 mb-3" id="btn_delete_div">
+                                        <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                                            <i class="fa fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- end tab-pane -->
+            <!-- begin tab-pane -->
+            @*<div class="tab-pane fade" id="forrevision">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <div class="panel-heading-btn">
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                            </div>
+                            <h4 class="panel-title">Request List</h4>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table class="table table-bordered table-striped" id="tbl_WorkOrder_rejected">
+                                        <thead class="th-dark">
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                                    <label class="checker" for="checkall_emp"></label>
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>Division</th>
+                                                <th>Department</th>
+                                                <th>Section</th>
+                                                <th>Building</th>
+                                                <th>Floor</th>
+                                                <th>Process/Area</th>
+                                                <th>Reference No</th>
+                                                <th>Work Order No</th>
+                                                <th>Requestor</th>
+                                                <th>Request Age</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+            <!-- end tab-pane -->
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+@*<div class="modal fade p-r-0" id="mdlCheckRequest" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" style="z-index: 99999;">
+        <div class="modal-dialog modal-xl tbl-100p" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mdlCheckRequestTitle">Approve/Reject Request</h5>
+                    <button type="button" class="close" id="closepagemodal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mdlBodyCheckRequest">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-md btn-success" data-dismiss="modal" id="btnApproveRequest"><span class="fa fa-check"></span> Approve Request</button>
+                    <button type="button" class="btn btn-md btn-danger" data-dismiss="modal" id="btnRejectRequest"><span class="fa fa-thumbs-down"></span> Reject Request</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div class="modal fade Approval" tabindex="-1" role="dialog" aria-labelledby="mdlCheckRequest" aria-hidden="true" id="mdlCheckRequest">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Approval</h5>
+                    <button type="button" class="close" id="closepagemodal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" id="remarkslabel">Remarks: </label>
+                                <div class="col-md-9">
+                                    <textarea class="txtarea form-control" rows="3" name="Remarks" id="Remarks"></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-md btn-success" id="btnApproveRequest">
+                            <span class="fa fa-check"></span> Approve Request
+                        </button>
+                        <button type="button" class="btn btn-md btn-warning" id="btnRejectRequest">
+                            <span class="fa fa-thumbs-down"></span> Reject Request
+                        </button>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+
+    <script src="~/Areas/WorkOrderApproval/Javascript/WorkOrderApproval.js"></script>
+}

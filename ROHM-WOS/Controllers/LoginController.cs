@@ -1,0 +1,362 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using ROHM_WOS.Models.LoginEntities;
+using ROHM_WOS.Models.MasterEntities;
+using ROHM_WOS.Models.MasterProcedure;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+
+namespace ROHM_WOS.Controllers
+{
+    public class LoginController : Controller
+    {
+        private SmtpClient smtpClient;
+        //ROHM_WOSDBEntities db = new ROHM_WOSDBEntities();
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        // GET: Login
+        public ActionResult Login()
+        {
+            try
+            {
+                if (Request.Cookies["UserName"].Value != "" && Request.Cookies["Password"].Value != "")
+                {
+                    SignIn(Request.Cookies["UserName"].Value, Request.Cookies["Password"].Value, true);
+                }
+            } catch (Exception err) {
+            }
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+           
+            return View();
+        }
+
+
+        public void SignIn(string Username, string password, bool isChecked)
+        {
+            string pass = EncodePasswordMd5(password);
+            //var user = (from c in db.M_Users where c.UserName == Username && c.Password == pass select c).FirstOrDefault();
+            M_Users user = new M_Users();
+
+           
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.LoginVerification";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = Username;
+            cmdSql.Parameters.Add("@Password", SqlDbType.NVarChar).Value = pass;
+            cmdSql.Parameters.Add("@Result", SqlDbType.NVarChar, -1).Value = 0;
+            cmdSql.Parameters["@Result"].Direction = ParameterDirection.Output;
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            string Result = cmdSql.Parameters["@Result"].Value.ToString();
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    user.ID = Convert.ToInt64(rdr["ID"]);
+                    user.EmployeeNo = rdr["EmployeeNo"].ToString();
+                    user.FirstName = rdr["FirstName"].ToString();
+                    user.LastName = rdr["LastName"].ToString();
+                    user.Email = rdr["Email"].ToString();
+                    user.Password = rdr["Password"].ToString();
+                    user.UserPhoto = rdr["UserPhoto"].ToString();
+                    user.DivisionID = Convert.ToInt64(rdr["DivisionID"]);//.ToString();
+                    user.DepartmentID = Convert.ToInt64(rdr["DepartmentID"]);
+                    user.SectionID = Convert.ToInt64(rdr["SectionID"]);
+                }
+            }
+
+            conn.Close();
+
+
+            if (user.EmployeeNo != null)
+            {
+                if (isChecked)
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["UserName"].Value = Username;
+                    Response.Cookies["Password"].Value = password;
+                }
+                else
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(-1);
+                }
+                System.Web.HttpContext.Current.Session["user"] = user;
+                FormsAuthentication.SetAuthCookie(user.EmployeeNo, true);
+                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                         1,
+                         user.EmployeeNo,
+                         DateTime.Now,
+                         DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+                         isChecked,
+                         user.ToString());
+                RefreshPageAccess(user.EmployeeNo);
+            }
+            else
+            {
+                System.Web.HttpContext.Current.Session["Result"] = Result;
+                Response.Redirect("/Login/Login");
+            }
+
+           
+        }
+
+        public void SignOut()
+        {
+            Response.Cookies["UserName"].Value = "";
+            Response.Cookies["Password"].Value = "";
+            Response.Redirect("/Login/Login");
+        }
+
+
+        public void RefreshPageAccess(string UserName)
+        {
+            #region For Page Access
+         
+            List<UserPageAccess> MasterPageList = new List<UserPageAccess>();
+            List<UserPageAccess> TransactionPageList = new List<UserPageAccess>();
+
+            SqlCommand cmdSql = new SqlCommand();
+
+            #region Masters Page Access
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.M_SP_PageandAccess";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = UserName;
+            cmdSql.Parameters.Add("@PageModule", SqlDbType.NVarChar).Value = "Master";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserPageAccess getter = new UserPageAccess();
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    getter.AccessType = (rdr["AccessType"] != null) ? Convert.ToBoolean(rdr["AccessType"]) : false;
+                    MasterPageList.Add(getter);
+                }
+            }
+            conn.Close();
+            #endregion
+
+            #region Transaction Page Access
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.M_SP_PageandAccess";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = UserName;
+            cmdSql.Parameters.Add("@PageModule", SqlDbType.NVarChar).Value = "Transaction";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserPageAccess getter = new UserPageAccess();
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    getter.AccessType = (rdr["AccessType"] != null) ? Convert.ToBoolean(rdr["AccessType"]) : false;
+                    TransactionPageList.Add(getter);
+                }
+            }
+            conn.Close();
+            #endregion
+            System.Web.HttpContext.Current.Session["MasterPageList"] = MasterPageList;
+            System.Web.HttpContext.Current.Session["WorkOrderApproval"] = TransactionPageList.Where(x=>x.PageIndex == "WorkOrderApproval").ToList();
+            System.Web.HttpContext.Current.Session["WorkOrderRequest"] = TransactionPageList.Where(x => x.PageIndex == "Request").ToList();
+            #endregion
+            try
+            {
+                Response.Redirect("/Home/Index");
+            }
+            catch(Exception err) { }
+        }
+
+        public string EncodePasswordMd5(string pass) //Encrypt using MD5    
+        {
+            Byte[] originalBytes;
+            Byte[] encodedBytes;
+            MD5 md5;
+            //Instantiate MD5CryptoServiceProvider, get bytes for original password and compute hash (encoded password)    
+            md5 = new MD5CryptoServiceProvider();
+            originalBytes = ASCIIEncoding.Default.GetBytes(pass);
+            encodedBytes = md5.ComputeHash(originalBytes);
+            //Convert encoded bytes back to a 'readable' string    
+            return BitConverter.ToString(encodedBytes).Replace("-", string.Empty);
+        }
+
+
+
+        public ActionResult RegisterUser(Register data)
+        {
+            try
+            {
+                string Query = "";
+                Query += "INSERT INTO [dbo].[M_Users]" +
+                              "     ([EmployeeNo]" +
+                              "     ,[FirstName]" +
+                              "     ,[LastName]" +
+                              "     ,[Email]" +
+                              "     ,[Password]" +
+                              "     ,[ResetPassword]" +
+                              "     ,[UserPhoto]" +
+                              "     ,[MobileNo]" +
+                              "     ,[LocalNo]" +
+                              "     ,[DivisionID]" +
+                              "     ,[DepartmentID]" +
+                              "     ,[SectionID]" +
+                              "     ,[IsDeleted]" +
+                              "     ,[CreateID]" +
+                              "     ,[CreateDate]" +
+                              "     ,[UpdateID]" +
+                              "     ,[UpdateDate]" +
+                              "     ,[IsApproved])" +
+                              "VALUES" +
+                              "     ('" + data.EmployeeNo + "'," +
+                              "     '" + data.FirstName + "'," +
+                              "     '" + data.LastName + "'," +
+                              "     '" + data.Email + "'," +
+                              "     '" + EncodePasswordMd5(data.Password) + "'," +
+                              "     '" + 0 + "'," +
+                              "     '" + "" + "'," +
+                              "     '" + data.MobileNo + "'," +
+                              "     '" + data.LocalNo + "'," +
+                              "     '" + data.DivisionID + "'," +
+                              "     '" + data.DepartmentID + "'," +
+                              "     '" + data.SectionID + "'," +
+                              "     '" + 0 + "'," +
+                              "     '" + data.EmployeeNo + "'," +
+                              "     '" + DateTime.Now + "'," +
+                              "     '" + data.EmployeeNo + "'," +
+                              "     '" + DateTime.Now + "',"+
+                              "     '" + 0 + "')";
+
+
+                Query += "INSERT INTO [dbo].[PA_Users]" +
+                        "           ([PageID]" +
+                        "           ,[PageAccess]" +
+                        "           ,[EmployeeNo])" +
+                        "VALUES" +
+                        "     ('" + 11 + "'," +
+                        "     '" + true + "'," +
+                        "     '" + data.EmployeeNo + "')";
+
+
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = Query;
+
+                conn.Open();
+                cmdSql.ExecuteNonQuery();
+                conn.Close();
+
+                #region
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = "SELECT Email FROM M_Users WHERE CanReceive = 1";
+
+                cmdSql.CommandTimeout = 0;
+
+                conn.Open();
+                //cmdSql.ExecuteNonQuery();
+                List<string> EmailList = new List<string>();
+                using (SqlDataReader rdr = cmdSql.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        string email = rdr["Email"].ToString();
+                        EmailList.Add(email);
+
+                    }
+                }
+
+                conn.Close();
+                #endregion
+
+                string EmailCredentials = ConnectionString.EmailCredentials;
+                string[] emaildetails = EmailCredentials.Split(';');
+                SendMail(emaildetails, EmailList);
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+
+
+        public void SendMail(string[] emaildetails, List<string> receivers)
+        {
+
+
+            this.smtpClient = new SmtpClient();
+            this.smtpClient.UseDefaultCredentials = false;
+            this.smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            this.smtpClient.Host = emaildetails[0];
+            this.smtpClient.Port = Convert.ToInt32(emaildetails[1]);
+            this.smtpClient.Credentials = new NetworkCredential(emaildetails[2], emaildetails[3]);
+            this.smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+            string msg = string.Empty;
+            msg = "New user waiting for approval";
+
+            String vhtml = String.Empty;
+            StreamReader reader = new StreamReader(Server.MapPath("/EmailTemplate/email.html"));
+            vhtml = reader.ReadToEnd();
+            vhtml = vhtml.Replace("{{{body}}}", msg);
+            /* RECIPIENT */
+            foreach (string email in receivers)
+            {
+                mail.To.Add(email);
+            }
+            mail.From = new MailAddress("FWOSMail@seiko-it.com.ph");
+            mail.IsBodyHtml = true;
+            mail.Body = vhtml;
+            this.smtpClient.Send(mail);
+        }
+    }
+}

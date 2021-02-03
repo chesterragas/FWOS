@@ -1,0 +1,115 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+/*.dl-horizontal dt {
+    white-space: normal;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+/* BUTTONS */
+/*.btn.btn-lg, .input-group-lg > .input-group-append > .btn, .input-group-lg > .input-group-prepend > .btn {
+    font-size: 14px;
+}
+
+.input-group-addon, .input-group-text {
+    font-size: 11px;
+}*/
+
+/* CONTENT */
+/*.content {
+    padding: 10px 15px;
+}
+
+.panel {
+    margin-bottom: 10px;
+}*/
+
+/* INPUT GROUP */
+/*.input-group-text {
+    border-radius: 0rem;
+}*/
+
+/* DATATABLES */
+/*body .dataTables_wrapper table.dataTable {
+    margin: 3px 0 !important;
+}*/
+
+
+body {
+    font-size: 11px;
+}
+
+.form-bordered .form-group > .col-form-label,
+.form-horizontal.form-bordered .form-group > .control-label {
+    padding: 11px 4px 12px;
+}
+
+.form-horizontal.form-bordered .form-group > div {
+    padding: 5px;
+}
+
+.form-control {
+    font-size: 11px;
+}
+
+.btn,
+.btn.btn-sm,
+.btn.btn-xs {
+    font-size: 11px;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+body .dataTables_wrapper table.dataTable {
+    margin: 5px 0 !important;
+    font-size: 11px;
+}
+
+.pagination > li > a {
+    padding: 3px 8px;
+}
+
+.content {
+    padding: 10px 10px;
+}
+
+.page-header {
+    margin: 0 0 10px;
+}
+
+.panel {
+    margin-bottom: 10px;
+}
+
+.panel-heading {
+    padding: 5px 15px;
+}
+
+.panel-body {
+    padding: 10px;
+}

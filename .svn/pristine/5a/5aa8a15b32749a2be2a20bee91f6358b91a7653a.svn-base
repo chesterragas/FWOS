@@ -1,0 +1,20 @@
+﻿using ROHM_WOS.Models.Helper;
+namespace ROHM_WOS.Areas.WorkOrderRequest.Models
+{
+    public class WorkOrderRequest
+    {
+    }
+
+    public class UserDropdown : DropDown
+    {
+        public string EmployeeNo { get; set; }
+    }
+
+    public class FacilitiesList
+    {
+        public int Rownum { get; set; }
+        public int ID { get; set; }
+        public string SectionName { get; set; }
+        public string EmpName { get; set; }
+    }
+}

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ 
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/assets/plugins/bootstrap-eonasdan-datetimepicker/node_modules/bootstrap/less/mixins/?C=N;O=D by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Jul 2019 08:16:20 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=ISO-8859-1" /><!-- /Added by HTTrack -->
+<head>
+  <title>Index of /color-admin-v4.3/admin/assets/plugins/bootstrap-eonasdan-datetimepicker/node_modules/bootstrap/less/mixins</title>
+ </head>
+ <body>
+<h1>Index of /color-admin-v4.3/admin/assets/plugins/bootstrap-eonasdan-datetimepicker/node_modules/bootstrap/less/mixins</h1>
+  <table>
+   <tr><th valign="top">&nbsp;</th><th><a href="indexb70a.html?C=N;O=A">Name</a></th><th><a href="indexf8a0.html?C=M;O=A">Last modified</a></th><th><a href="indexbfec.html?C=S;O=A">Size</a></th><th><a href="index30b5.html?C=D;O=A">Description</a></th></tr>
+   <tr><th colspan="5"><hr></th></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="../index.html">Parent Directory</a>       </td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="vendor-prefixes.html">vendor-prefixes.less</a>   </td><td align="right">2016-07-25 08:41  </td><td align="right">6.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="text-overflow.html">text-overflow.less</a>     </td><td align="right">2016-07-25 08:41  </td><td align="right">162 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="text-emphasis.html">text-emphasis.less</a>     </td><td align="right">2016-07-25 08:41  </td><td align="right">128 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="table-row.html">table-row.less</a>         </td><td align="right">2016-07-25 08:41  </td><td align="right">700 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="tab-focus.html">tab-focus.less</a>         </td><td align="right">2016-07-25 08:41  </td><td align="right">332 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="size.html">size.less</a>              </td><td align="right">2016-07-25 08:41  </td><td align="right">127 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="responsive-visibility.html">responsive-visibilit..&gt;</a></td><td align="right">2016-07-25 08:41  </td><td align="right">354 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="resize.html">resize.less</a>            </td><td align="right">2016-07-25 08:41  </td><td align="right">196 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="reset-text.html">reset-text.less</a>        </td><td align="right">2016-07-25 08:41  </td><td align="right">470 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="reset-filter.html">reset-filter.less</a>      </td><td align="right">2016-07-25 08:41  </td><td align="right">248 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="progress-bar.html">progress-bar.less</a>      </td><td align="right">2016-07-25 08:41  </td><td align="right">191 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="panels.html">panels.less</a>            </td><td align="right">2016-07-25 08:41  </td><td align="right">537 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="pagination.html">pagination.less</a>        </td><td align="right">2016-07-25 08:41  </td><td align="right">485 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="opacity.html">opacity.less</a>           </td><td align="right">2016-07-25 08:41  </td><td align="right">148 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="nav-vertical-align.html">nav-vertical-align.less</a></td><td align="right">2016-07-25 08:41  </td><td align="right">364 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="nav-divider.html">nav-divider.less</a>       </td><td align="right">2016-07-25 08:41  </td><td align="right">232 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="list-group.html">list-group.less</a>        </td><td align="right">2016-07-25 08:41  </td><td align="right">546 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="labels.html">labels.less</a>            </td><td align="right">2016-07-25 08:41  </td><td align="right">161 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="image.html">image.less</a>             </td><td align="right">2016-07-25 08:41  </td><td align="right">1.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="hide-text.html">hide-text.less</a>         </td><td align="right">2016-07-25 08:41  </td><td align="right">575 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="grid.html">grid.less</a>              </td><td align="right">2016-07-25 08:41  </td><td align="right">3.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="grid-framework.html">grid-framework.less</a>    </td><td align="right">2016-07-25 08:41  </td><td align="right">2.7K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="gradients.html">gradients.less</a>         </td><td align="right">2016-07-25 08:41  </td><td align="right">4.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="forms.html">forms.less</a>             </td><td align="right">2016-07-25 08:41  </td><td align="right">2.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="clearfix.html">clearfix.less</a>          </td><td align="right">2016-07-25 08:41  </td><td align="right">605 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="center-block.html">center-block.less</a>      </td><td align="right">2016-07-25 08:41  </td><td align="right">120 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="buttons.html">buttons.less</a>           </td><td align="right">2016-07-25 08:41  </td><td align="right">1.4K</td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="border-radius.html">border-radius.less</a>     </td><td align="right">2016-07-25 08:41  </td><td align="right">468 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="background-variant.html">background-variant.less</a></td><td align="right">2016-07-25 08:41  </td><td align="right">151 </td><td>&nbsp;</td></tr>
+<tr><td valign="top">&nbsp;</td><td><a href="alerts.html">alerts.less</a>            </td><td align="right">2016-07-25 08:41  </td><td align="right">257 </td><td>&nbsp;</td></tr>
+   <tr><th colspan="5"><hr></th></tr>
+</table>
+</body>
+<!-- Mirrored from seantheme.com/color-admin-v4.3/admin/assets/plugins/bootstrap-eonasdan-datetimepicker/node_modules/bootstrap/less/mixins/?C=N;O=D by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Jul 2019 08:16:20 GMT -->
+</html>

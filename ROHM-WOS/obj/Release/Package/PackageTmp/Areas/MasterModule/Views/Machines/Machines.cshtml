@@ -1,0 +1,258 @@
+﻿
+@{
+    ViewBag.Title = "Machines";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Masters</a></li>
+    <li class="breadcrumb-item active">Machines</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Machines</h1>
+<!-- end page-header -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse" data-sortable-id="form-plugins-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Machine Information Form</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <form class="form-horizontal form-bordered">
+
+                    <input type="hidden" class="clear" id="ID">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Machine Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="MachineName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Floor: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Floor">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Production Process Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear is-invalid input_state" id="ProdProcessName">
+                                    <div class="invalid-feedback">Invalid input</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Maker Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="MakerName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">M/C Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="MCName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Type Name: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="TypeName">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Weight: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Weight">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">M/C Quantity: </label>
+                                <div class="col-md-8">
+                                    <input type="number" step="0.01" class="form-control form-control-sm clear usr_ctrl input_state" id="MCQuantity">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Dimensions: </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="Dimensions">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label">Additional M/C Quantity: </label>
+                                <div class="col-md-8">
+                                    <input type="number" step="0.01" class="form-control form-control-sm clear usr_ctrl input_state" id="AdditionalMCQuantity">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+
+                    
+                </form>
+            </div>
+            <!-- end panel-body -->
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Machines List</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped" id="tbl_machines">
+                            <thead class="th-dark">
+                            <th><input type="checkbox" /></th>
+                            <th></th>
+                            <th>Machine Name</th>
+                            <th>Floor</th>
+                            <th>Production Process Name</th>
+                            <th>Maker Name</th>
+                            <th>M/C Name</th>
+                            <th>M/C Quantity</th>
+                            <th>M/C Additional Quantity</th>
+                            <th>Type Name</th>
+                            <th>Weight</th>
+                            <th>Dimension</th>
+                            </thead>
+                            <tbody>
+                            <td><input type="checkbox" /></td>
+                            <td>
+                                <button type="button" class="btn btn-xs btn-flat btn-primary">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </td>
+                            <td>Machine1</td>
+                            <td>1</td>
+                            <td>Mach1</td>
+                            <td>Admin</td>
+                            <td>Admin</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>Type</td>
+                            <td>11kg</td>
+                            <td>3.13</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-2 mb-3" id="btn_delete_div">
+                        <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="~/Areas/MasterModule/Javascripts/Machines.js"></script>
+
+}
+

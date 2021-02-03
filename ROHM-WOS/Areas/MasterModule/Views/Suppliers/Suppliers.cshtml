@@ -1,0 +1,250 @@
+﻿@{
+    ViewBag.Title = "Suppliers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Masters</a></li>
+    <li class="breadcrumb-item active">Suppliers</a></li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Suppliers</h1>
+<!-- end page-header -->
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse" data-sortable-id="form-plugins-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Supplier Information Form</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <form class="form-horizontal form-bordered" id="Suppliers_Form">
+
+                    <input type="hidden" class="form-control input-sm clear" name="ID" id="ID" readonly="">
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Supplier Name: </label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control form-control-sm clear usr_ctrl input_state" id="SupplierName" name="SupplierName">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Address: </label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control form-control-sm clear usr_ctrl input_state" id="Address" name="Address" style="resize: none;" rows="4"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-2 mb-3" id="btn_add_div">
+                            <button type="button" class="btn btn-flat btn-primary btn-sm btn-block usr_ctrl" id="btn_add">
+                                <i class="fa fa-plus"></i> Add New
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_save_div">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_clear_div">
+                            <button type="button" class="btn btn-flat btn-secondary btn-sm btn-block usr_ctrl" id="btn_clear">
+                                <i class="fa fa-redo"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-md-2 mb-3" id="btn_cancel_div">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_cancel">
+                                <i class="fa fa-times"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end panel-body -->
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                </div>
+                <h4 class="panel-title">Suppliers List</h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped" id="tbl_suppliers">
+                            <thead class="th-dark">
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <input type="checkbox" id="checkall_emp" class="filled-in chk-col-light-blue" />
+                                        <label class="checker" for="checkall_emp"></label>
+                                    </th>
+                                    <th>
+                                        Modify
+                                    </th>
+                                    <th>Supplier Name</th>
+                                    <th>Address</th>
+                                    <th>Contact Details</th>
+                                    @*<th>Telephone</th>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-2 mb-3" id="btn_delete_div">
+                        <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete">
+                            <i class="fa fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="SupplierDetails_Modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Contact Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-bordered" id="SupplierDetailForm">
+
+                    <input type="hidden" class="clear" id="SupplierDetailID">
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">Title </label>
+                                <div class="col-md-4">
+                                    <select type="text" class="form-control form-control-sm clear" id="ContactTitle" name="ContactTitle">
+                                        <option value="">--SELECT--</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Ms">Ms</option>
+                                        <option value="LGBT">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">First Name </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactFirstName" name="ContactFirstName">
+                                </div>
+                                <label class="col-md-2 col-form-label">Last Name </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactLastName" name="ContactLastName">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">Position </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactPosition" name="ContactPosition">
+                                </div>
+                                <label class="col-md-2 col-form-label">Email </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactEmail" name="ContactEmail">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">Telephone </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactTelephone" name="ContactTelephone">
+                                </div>
+                                <label class="col-md-2 col-form-label">Cellphone </label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm clear" id="ContactCellphone" name="ContactCellphone">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center" style="padding-top:20px">
+                        <div class="col-lg-12">
+                            <table class="table table-bordered table-striped" id="tbl_details" width="100%">
+                                <thead class="th-dark">
+                                <th></th>
+                                <th><input type="checkbox" /></th>
+                                <th>Modify</th>
+                                <th>Title</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Position</th>
+                                <th>Email</th>
+                                <th>Telephone No</th>
+                                <th>Cellphone No</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-3 mb-3">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btn_delete_details">
+                                <i class="fa fa-trash"></i> Delete
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <button type="submit" class="btn btn-flat btn-success btn-sm btn-block usr_ctrl" id="btn_save_details">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white btn-sm" data-dismiss="modal">Close</a>
+                @*<a href="javascript:;" class="btn btn-success btn-sm" id="btn_save_email">
+                    <i class="fa fa-save"></i> Save
+                </a>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="~/Areas/MasterModule/Javascripts/Suppliers.js"></script>
+
+}

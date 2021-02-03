@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .widget-list-item:hover {
+        background-color: #BFBFBF !important;
+        cursor: pointer !important;
+    }
+</style>
+
+<ol class="breadcrumb pull-right">
+    <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+    <li class="breadcrumb-item"><a href="javascript:;">Chat Box</a></li>
+</ol>
+<h1 class="page-header">Chat Box <small></small></h1>
+
+<!-- begin widget-chat -->
+
+<div class="row">
+
+
+    <div class="col-3">
+      
+        <div class="widget-chat widget-chat-rounded m-b-30" data-id="widget">
+            <!-- begin widget-chat-header -->
+
+            <div class="widget-chat-header">
+                <div class="widget-chat-header-icon">
+                    <i class="fab fa-earlybirds width-30 height-30 f-s-20 bg-yellow text-inverse text-center rounded-corner" style="line-height: 30px"></i>
+                </div>
+                <div class="widget-chat-header-content">
+                    <h4 class="widget-chat-header-title">Conversation Group</h4>
+                    <p class="widget-chat-header-desc">100 members, 14 online</p>
+                </div>
+            </div>
+            <!-- end widget-chat-header -->
+            <!-- begin widget-chat-body -->
+            <div class="widget-chat-body" data-scrollbar="true" data-height="300px" id="discussionchatboxGroups">
+
+                <!-- begin widget-list-item -->
+                <div class="widget-list-item conv" id="wo001">
+                    <div class="widget-list-action">
+                        <a href="#" data-toggle="dropdown" class=""><i class="fa fa-ellipsis-h f-s-14"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-trash f-s-14"> Delete </i></a></li>
+                        </ul>
+                    </div>
+                    <div class="widget-list-media">
+
+                        <img src="~/Content/assets/img/gallery/gallery-1.jpg" alt="" class="rounded" />
+                    </div>
+
+                    <div class="widget-list-content">
+                        <h4 class="widget-list-title">Work Order 001</h4>
+                        <p class="widget-list-desc">Supplies</p>
+                    </div>
+
+                </div>
+
+                <div class="widget-list-item conv" id="wo002">
+                    <div class="widget-list-action">
+                        <a href="#" data-toggle="dropdown" class=""><i class="fa fa-ellipsis-h f-s-14"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-trash f-s-14"> Delete </i></a></li>
+                        </ul>
+                    </div>
+                    <div class="widget-list-media">
+
+                        <img src="~/Content/assets/img/gallery/gallery-1.jpg" alt="" class="rounded" />
+                    </div>
+
+                    <div class="widget-list-content">
+                        <h4 class="widget-list-title">Work Order 002</h4>
+                        <p class="widget-list-desc">Supplies</p>
+                    </div>
+
+                </div>
+
+                <div class="widget-list-item conv" id="wo003">
+                    <div class="widget-list-action">
+                        <a href="#" data-toggle="dropdown" class=""><i class="fa fa-ellipsis-h f-s-14"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-trash f-s-14"> Delete </i></a></li>
+                        </ul>
+                    </div>
+                    <div class="widget-list-media">
+
+                        <img src="~/Content/assets/img/gallery/gallery-1.jpg" alt="" class="rounded" />
+                    </div>
+
+                    <div class="widget-list-content">
+                        <h4 class="widget-list-title">Work Order 003</h4>
+                        <p class="widget-list-desc">Supplies</p>
+                    </div>
+
+                </div>
+            </div>
+
+    </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="widget-chat widget-chat-rounded m-b-30" data-id="widget">
+            <!-- begin widget-chat-header -->
+
+            <div class="widget-chat-header">
+                <div class="widget-chat-header-icon">
+                    <i class="fab fa-earlybirds width-30 height-30 f-s-20 bg-yellow text-inverse text-center rounded-corner" style="line-height: 30px"></i>
+                </div>
+                <div class="widget-chat-header-content">
+                    <h4 class="widget-chat-header-title">Company Discussion Group</h4>
+                    <p class="widget-chat-header-desc">55 members, 4 online</p>
+                </div>
+            </div>
+            <!-- end widget-chat-header -->
+            <!-- begin widget-chat-body -->
+            <div class="widget-chat-body" data-scrollbar="true" data-height="300px" id="discussionchatbox">
+
+                <div class="text-center text-muted m-10 f-w-600">Today</div>
+
+            </div>
+            <!-- end widget-chat-body -->
+            <div class="widget-input widget-input-rounded">
+
+                <div class="widget-input-container">
+                    @*<div class="widget-input-icon"><a href="#" class="text-grey"><i class="fa fa-camera"></i></a></div>*@
+
+                    <div class="widget-input-box" style="padding-left:10px">
+                        <input type="text" id="message" class="form-control form-control-sm" placeholder="Write a message..." />
+                    </div>
+                    @*<div class="widget-input-icon"><a href="#" class="text-grey"><i class="fa fa-smile"></i></a></div>
+                    <div class="widget-input-divider"></div>
+                    <div class="widget-input-icon"><a href="#" class="text-grey"><i class="fa fa-microphone"></i></a></div>*@
+                </div>
+
+            </div>
+            <!-- end widget-input -->
+        </div>
+        <!-- end widget-chat -->
+
+
+
+
+        <div class="container">
+            @*<input type="text"  />*@
+            <input type="button" id="sendmessage" value="Send" hidden />
+            <input type="hidden" id="displayname" />
+            <input type="hidden" id="displayphoto" />
+            <input type="hidden" id="ConversationID" />
+            @*<ul id="discussion"></ul>*@
+        </div>
+    </div>
+   
+
+</div>
+
+    @section scripts {
+
+
+        @Scripts.Render("~/bundles/signalr")
+        <script src="~/Content/assets/plugins/bootstrap-daterangepicker/moment.js"></script>
+        <script src="~/signalr/hubs"></script>
+
+        <script src="~/Scripts/Custom/SignalRchat.js"></script>
+    }

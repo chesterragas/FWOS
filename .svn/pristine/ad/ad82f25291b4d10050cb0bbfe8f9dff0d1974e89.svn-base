@@ -1,0 +1,149 @@
+﻿@using ROHM_WOS.Models.Helper;
+<div id="step-2">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Building: </label>
+                <div class="col-md-11">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <select id="BuildingID" name="BuildingID" class="form-control form-control-sm clear usr_ctrl input_state">
+                                <option value="">--SELECT--</option>
+                                @foreach (DropDown BuildingObj in ViewBag.BuildingList)
+                                {
+                                    <option value="@BuildingObj.ID">@BuildingObj.ItemName</option>
+                                }
+                            </select>
+                            <input type="text" id="BuildingOther" name="BuildingOther" class="form-control form-control-sm clear usr_ctrl input_state m-t-5" style="display:none;" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <label class="col-md-4 col-form-label">Floor: </label>
+                                <div class="col-md-8">
+                                    <select id="FloorID" name="FloorID" class="form-control form-control-sm clear usr_ctrl input_state">
+                                        <option value="">--SELECT--</option>
+                                    </select>
+                                    <input type="text" id="FloorOther" name="FloorOther" class="form-control form-control-sm clear usr_ctrl input_state m-t-5" style="display:none;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <label class="col-md-4 col-form-label">Process/Area: </label>
+                                <div class="col-md-8">
+                                    <select id="ProcessAreaID" name="ProcessAreaID" class="form-control form-control-sm clear usr_ctrl input_state">
+                                        <option value="">--SELECT--</option>
+                                        @foreach (DropDown ProcessAreaObj in ViewBag.ProcessAreaList)
+                                        {
+                                            <option value="@ProcessAreaObj.ID">@ProcessAreaObj.ItemName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Work Request</label>
+                <div class="col-md-11 p-b-0">
+                    <div class="row" id="divWorkRequestContainer">
+                        @foreach (DropDown WorkRequestObj in ViewBag.WorkRequestList)
+                        {
+                            <div class="col-md-3  p-b-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="@WorkRequestObj.ID" id="WorkRequest_@WorkRequestObj.ID">
+                                    <label class="form-check-label" for="WorkRequest_@WorkRequestObj.ID">
+                                        @WorkRequestObj.ItemName
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-3  p-b-5">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" value="0" id="chkWorkRequest_Others">
+                                    </div>
+                                </div>
+                                <input disabled type="text" id="WorkRequest_Others" name="WorkRequest_Others" class="form-control form-control-sm clear usr_ctrl input_state" placeholder="Others" aria-label="Text input with checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Classification</label>
+                <div class="col-md-11 p-b-0">
+                    <div class="row" id="divWorkClassification">
+                        @foreach (DropDown WorkClassificationObj in ViewBag.WorkClassificationList)
+                        {
+                            <div class="col-md-3  p-b-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="@WorkClassificationObj.ID" id="WorkClassification_@WorkClassificationObj.ID">
+                                    <label class="form-check-label" for="WorkClassification_@WorkClassificationObj.ID">
+                                        @WorkClassificationObj.ItemName
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-3  p-b-5">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input" value="0" id="chkWorkClassification_Others">
+                                    </div>
+                                </div>
+                                <input disabled type="text" id="WorkClassification_Others" name="WorkClassification_Others" class="form-control form-control-sm clear usr_ctrl input_state" placeholder="Others" aria-label="Text input with checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Details: </label>
+                <div class="col-md-11">
+                    <textarea class="form-control form-control-sm clear usr_ctrl input_state" id="Details" name="Details" style="resize: none;" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Utilities</label>
+                <div class="col-md-11 p-b-0">
+                    <button class="btn btn-sm btn-success" type="button">Exhaust</button>
+                    <button class="btn btn-sm btn-success" type="button">Waste Water</button>
+                    <button class="btn btn-sm btn-success" type="button" id="btn_plus"><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-sm btn-success" type="button">View All</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-1 col-form-label">Drawing:</label>
+                <div class="col-md-11">
+                    <div class="col-md-12">
+                        <div class="input-group input-group-sm m-b-5">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="flInspection" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                <label class="custom-file-label" id="flInpsectionLabel" for="flInspection">Choose Excel file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

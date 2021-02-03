@@ -1,0 +1,38 @@
+﻿using ROHM_WOS.Models.Helper;
+namespace ROHM_WOS.Areas.WorkOrderRequest.Models
+{
+    public class WorkOrderRequestData
+    {
+        public int ID { get; set; }
+        public int Rownum { get; set; }
+        public string DateRequest { get; set; }
+        public string WorkOrderTitle { get; set; }
+        public string ReferenceNo { get; set; }
+        public string WorkOrderNo { get; set; }
+        public string RequestorEmployeeNo { get; set; }
+        public string EmployeeName { get; set; }
+        public int DivisionID { get; set; }
+        public string DivisionName { get; set; }
+        public int DepartmentID { get; set; }
+        public string DepartmentName { get; set; }
+        public int SectionID { get; set; }
+        public string SectionName { get; set; }
+        public string Approved { get; set; }
+        public string ForApproval { get; set; }
+        public string Rejected { get; set; }
+        public string RevisionNo { get; set; }
+    }
+
+    public class UserDropdown : DropDown
+    {
+        public string EmployeeNo { get; set; }
+    }
+
+    public class FacilitiesList
+    {
+        public int Rownum { get; set; }
+        public int ID { get; set; }
+        public string SectionName { get; set; }
+        public string EmpName { get; set; }
+    }
+}

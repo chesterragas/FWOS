@@ -1,0 +1,9 @@
+﻿$(document).ready(function () {
+    
+    $('#LoginForm').on('submit', function (e) {
+        e.preventDefault();
+        window.location = "/Login/SignIn?Username="+$("#Username").val() + "&password=" + $("#Password").val() + "&isChecked=" + $("#remember_checkbox").is(":checked");
+    });
+
+   
+});

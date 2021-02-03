@@ -1,0 +1,57 @@
+﻿<div id="step-4">
+    <div id="divFacilities">
+        <button type="button" class="btn btn-primary btn-sm m-b-5" id="btnAddFacilities"><span class="fa fa-user-plus"></span> Add Assigned Person</button>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="tblSelectedFacilities" style="width:100%;">
+                    <thead class="th-dark">
+                        <tr>
+                            <th><input type="checkbox" id="chkAllSelectedFacilities"></th>
+                            <th>Assigned Section</th>
+                            <th>Assigned Person</th>
+                            <th>Date Requested</th>
+                            <th>Survey Date/time</th>
+                            <th>Target Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btnDeleteSelectedFacilities">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="divContractor" style="display:none;">
+        <button type="button" class="btn btn-primary btn-sm m-b-5" id="btnAddContractorSupplier"><span class="fa fa-user-plus"></span> Add Suppliers</button>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="tblSelectedContractors" style="width:100%;">
+                    <thead class="th-dark">
+                        <tr>
+                            <th><input type="checkbox" id="chkAllSelectedContractors"></th>
+                            <th>Company Name</th>
+                            <th>Address</th>
+                            <th>Date Requested</th>
+                            <th>Survey Date/time</th>
+                            <th>Quotation Submission</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <button type="button" class="btn btn-flat btn-danger btn-sm btn-block usr_ctrl" id="btnDeleteSelectedContractors">
+                    <i class="fa fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿using ROHM_WOS.Controllers;
+using ROHM_WOS.Models.MasterEntities;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace ROHM_WOS.Areas.WorkOrderApproval.Controllers
+{
+    public class WorkOrderApprovalController : Controller
+    {
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        M_Users user = (M_Users)System.Web.HttpContext.Current.Session["user"];
+        [Session]
+        // GET: WorkOrderApproval/WorkOrderApproval
+        public ActionResult WorkOrderApproval()
+        {
+            return View();
+        }
+    }
+}

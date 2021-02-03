@@ -1,0 +1,73 @@
+﻿$(function () {
+    Initializepage();
+});
+
+
+function Initializepage() {
+    view_state('view');
+    var table = $('#tbl_WorkOrder').DataTable();
+    //var table = $('#tbl_suppliers').DataTable({
+    //    ajax: {
+    //        url: '../Suppliers/GetSuppliersList',
+    //        type: "POST",
+    //        datatype: "json",
+    //        data: { supersection: $("#Section").val() }
+    //    },
+    //    lengthMenu: [[10, 50, 100], [10, 50, 100]],
+    //    lengthChange: true,
+    //    scrollCollapse: true,
+    //    serverSide: "true",
+    //    order: [0, "asc"],
+    //    processing: "true",
+    //    language: {
+    //        "processing": "processing... please wait"
+    //    },
+    //    destroy: true,
+    //    columnDefs: [
+    //        {
+    //            'targets': 0,
+    //            'checkboxes': {
+    //                'selectRow': true
+    //            }
+    //        }
+    //    ],
+    //    select: {
+    //        'style': 'multi'
+    //    },
+
+    //    columns: [
+    //        { data: "ID", name: "ID", visible: false },
+    //        {
+    //            data: function (x) {
+    //                return "<input type='checkbox' id='" + x.ID + "' class='filled-in chk-col-light-blue checkitems' />";
+    //            }, sortable: false, searchable: false,
+    //        },
+    //        {
+    //            data: function (x) {
+    //                return "<button type='button' class='btn btn-xs btn-flat btn-primary btn_edit_user'>" +
+    //                    "<i class='fa fa-edit'></i>" +
+    //                    "</button>";
+    //            }, sortable: false, searchable: false,
+    //        },
+    //        { data: "SupplierName", name: "SupplierName" },
+    //        { data: "Address", name: "Address" },
+    //        {
+    //            data: function (x) {
+    //                return "<button type='button' class='btn btn-xs btn-flat btn-primary btn_contact'>" +
+    //                    "<i class='fa fa-user-md'> Contact Details </i>" +
+    //                    "</button>";
+    //            }, sortable: false, searchable: false,
+    //        },
+    //        //{
+    //        //    data: function (x) {
+    //        //        return "<button type='button' class='btn btn-xs btn-flat btn-primary'>" +
+    //        //            "<i class='fa fa-user-md'> Telephone No </i>" +
+    //        //            "</button>";
+    //        //    }, sortable: false, searchable: false, 
+    //        //},
+
+    //    ],
+
+    //});
+   
+}

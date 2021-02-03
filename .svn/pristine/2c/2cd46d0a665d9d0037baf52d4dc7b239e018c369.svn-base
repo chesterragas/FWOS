@@ -1,0 +1,250 @@
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
+using ROHM_WOS.Models.LoginEntities;
+using ROHM_WOS.Models.MasterEntities;
+using ROHM_WOS.Models.MasterProcedure;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+
+namespace ROHM_WOS.Controllers
+{
+    public class LoginController : Controller
+    {
+        //ROHM_WOSDBEntities db = new ROHM_WOSDBEntities();
+        SqlConnection conn = new SqlConnection(ConnectionString.WOSDB);
+        // GET: Login
+        public ActionResult Login()
+        {
+            try
+            {
+                if (Request.Cookies["UserName"].Value != "" && Request.Cookies["Password"].Value != "")
+                {
+                    SignIn(Request.Cookies["UserName"].Value, Request.Cookies["Password"].Value, true);
+                }
+            } catch (Exception err) {
+            }
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+           
+            return View();
+        }
+
+
+        public void SignIn(string Username, string password, bool isChecked)
+        {
+            string pass = EncodePasswordMd5(password);
+            //var user = (from c in db.M_Users where c.UserName == Username && c.Password == pass select c).FirstOrDefault();
+            M_Users user = new M_Users();
+
+           
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.LoginVerification";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = Username;
+            cmdSql.Parameters.Add("@Password", SqlDbType.NVarChar).Value = pass;
+          
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    user.EmployeeNo = rdr["EmployeeNo"].ToString();
+                    user.FirstName = rdr["FirstName"].ToString();
+                    user.LastName = rdr["LastName"].ToString();
+                    user.Email = rdr["Email"].ToString();
+                    user.Password = rdr["Password"].ToString();
+                    user.UserPhoto = rdr["UserPhoto"].ToString();
+                    user.Division = rdr["DivisionID"].ToString();
+                    user.Department = rdr["DepartmentID"].ToString();
+                    user.Section = rdr["SectionID"].ToString();
+                }
+            }
+
+            conn.Close();
+
+
+            if (user.EmployeeNo != null)
+            {
+                if (isChecked)
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["UserName"].Value = Username;
+                    Response.Cookies["Password"].Value = password;
+                }
+                else
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(-1);
+                }
+                System.Web.HttpContext.Current.Session["user"] = user;
+                FormsAuthentication.SetAuthCookie(user.EmployeeNo, true);
+                FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+                         1,
+                         user.EmployeeNo,
+                         DateTime.Now,
+                         DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+                         isChecked,
+                         user.ToString());
+                RefreshPageAccess(user.EmployeeNo);
+            }
+            else
+            {
+                Response.Redirect("/Login/Login");
+            }
+
+           
+        }
+
+        public void SignOut()
+        {
+            Response.Cookies["UserName"].Value = "";
+            Response.Cookies["Password"].Value = "";
+            Response.Redirect("/Login/Login");
+        }
+
+
+        public void RefreshPageAccess(string UserName)
+        {
+            #region For Page Access
+            //M_Users userchosen = (from c in db.M_Users where c.UserName == UserName select c).FirstOrDefault();
+
+            List<UserPageAccess> MasterPageList = new List<UserPageAccess>();//db.M_SP_PageandAccess(UserName, "Master").Where(x => x.AccessType == true).ToList();
+            
+            SqlCommand cmdSql = new SqlCommand();
+            cmdSql.Connection = conn;
+            cmdSql.CommandTimeout = 0;
+            cmdSql.CommandType = CommandType.StoredProcedure;
+            cmdSql.CommandText = @"dbo.M_SP_PageandAccess";
+
+            cmdSql.Parameters.Clear();
+            cmdSql.Parameters.Add("@EmployeeNo", SqlDbType.NVarChar).Value = UserName;
+            cmdSql.Parameters.Add("@PageModule", SqlDbType.NVarChar).Value = "Master";
+
+            cmdSql.CommandTimeout = 0;
+
+            conn.Open();
+            cmdSql.ExecuteNonQuery();
+            
+            using (SqlDataReader rdr = cmdSql.ExecuteReader())
+            {
+                while (rdr.Read())
+                {
+                    UserPageAccess getter = new UserPageAccess();
+                    getter.PageIndex = rdr["PageIndex"].ToString();
+                    getter.PageName = rdr["PageName"].ToString();
+                    getter.PageModule = rdr["PageModule"].ToString();
+                    getter.AccessType = (rdr["AccessType"] != null) ? Convert.ToBoolean(rdr["AccessType"]) : false;
+                    MasterPageList.Add(getter);
+                }
+            }
+            conn.Close();
+            System.Web.HttpContext.Current.Session["MasterPageList"] = MasterPageList;
+
+            #endregion
+            try
+            {
+                Response.Redirect("/Home/Index");
+            }
+            catch(Exception err) { }
+        }
+
+        public string EncodePasswordMd5(string pass) //Encrypt using MD5    
+        {
+            Byte[] originalBytes;
+            Byte[] encodedBytes;
+            MD5 md5;
+            //Instantiate MD5CryptoServiceProvider, get bytes for original password and compute hash (encoded password)    
+            md5 = new MD5CryptoServiceProvider();
+            originalBytes = ASCIIEncoding.Default.GetBytes(pass);
+            encodedBytes = md5.ComputeHash(originalBytes);
+            //Convert encoded bytes back to a 'readable' string    
+            return BitConverter.ToString(encodedBytes).Replace("-", string.Empty);
+        }
+
+
+        public ActionResult RegisterUser(Register data)
+        {
+            try
+            {
+                string Query = "";
+                Query += "INSERT INTO [dbo].[M_Users]" +
+                              "     ([EmployeeNo]" +
+                              "     ,[FirstName]" +
+                              "     ,[LastName]" +
+                              "     ,[Email]" +
+                              "     ,[Password]" +
+                              "     ,[ResetPassword]" +
+                              "     ,[UserPhoto]" +
+                              "     ,[MobileNo]" +
+                              "     ,[LocalNo]" +
+                              "     ,[DivisionID]" +
+                              "     ,[DepartmentID]" +
+                              "     ,[SectionID]" +
+                              "     ,[IsDeleted]" +
+                              "     ,[CreateID]" +
+                              "     ,[CreateDate]" +
+                              "     ,[UpdateID]" +
+                              "     ,[UpdateDate]" +
+                              "     ,[IsApproved])" +
+                              "VALUES" +
+                              "     ('" + data.EmployeeNo + "'," +
+                              "     '" + data.FirstName + "'," +
+                              "     '" + data.LastName + "'," +
+                              "     '" + data.Email + "'," +
+                              "     '" + EncodePasswordMd5(data.Password) + "'," +
+                              "     '" + 0 + "'," +
+                              "     '" + "" + "'," +
+                              "     '" + data.MobileNo + "'," +
+                              "     '" + data.LocalNo + "'," +
+                              "     '" + data.DivisionID + "'," +
+                              "     '" + data.DepartmentID + "'," +
+                              "     '" + data.SectionID + "'," +
+                              "     '" + 0 + "'," +
+                              "     '" + data.EmployeeNo + "'," +
+                              "     '" + DateTime.Now + "'," +
+                              "     '" + data.EmployeeNo + "'," +
+                              "     '" + DateTime.Now + "',"+
+                              "     '" + 0 + "')";
+
+                SqlCommand cmdSql = new SqlCommand();
+                cmdSql.Connection = conn;
+                cmdSql.CommandTimeout = 0;
+                cmdSql.CommandText = Query;
+
+                conn.Open();
+                cmdSql.ExecuteNonQuery();
+                conn.Close();
+
+                return Json(new { msg = "Success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception err)
+            {
+                return Json(new { msg = err.Message }, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+    }
+}

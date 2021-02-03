@@ -1,0 +1,71 @@
+﻿using System.Web.Optimization;
+
+namespace ROHM_WOS
+{
+    public class BundleConfig
+    {
+        // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
+        public static void RegisterBundles(BundleCollection bundles)
+        {
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/Scripts/jquery.validate*"));
+
+            // Use the development version of Modernizr to develop with and learn from. Then, when you're
+            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                        "~/Scripts/modernizr-*"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/assets/plugins/jquery-ui/jquery-ui.min.css",
+                      "~/Content/assets/plugins/bootstrap/css/bootstrap.min.css",
+                      "~/Content/assets/plugins/font-awesome/css/all.min.css",
+                      "~/Content/assets/plugins/animate/animate.min.css",
+                      "~/Content/assets/css/default/style.min.css",
+                      "~/Content/assets/css/default/style-responsive.min.css",
+                      "~/Content/assets/css/default/theme/default.css",
+                      "~/Content/assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css",
+                      "~/Content/assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css",
+                      "~/Content/assets/plugins/select2/dist/css/select2.min.css",
+                      "~/Content/Site.css"));
+
+
+            bundles.Add(new ScriptBundle("~/Content/js").Include(
+                      "~/Content/assets/plugins/jquery/jquery-3.3.1.min.js",
+                      "~/Content/assets/plugins/jquery-ui/jquery-ui.min.js",
+                      "~/Content/assets/plugins/bootstrap/js/bootstrap.bundle.min.js",
+                      "~/Content/assets/plugins/bootstrap-sweetalert/sweetalert.min.js",
+                      "~/Content/assets/crossbrowserjs/html5shiv.js",
+                      "~/Content/assets/crossbrowserjs/respond.min.js",
+                      "~/Content/assets/crossbrowserjs/excanvas.min.js",
+                      "~/Content/assets/plugins/slimscroll/jquery.slimscroll.min.js",
+                      "~/Content/assets/plugins/js-cookie/js.cookie.js",
+                      "~/Content/assets/js/theme/default.min.js",
+                      "~/Content/assets/js/apps.min.js",
+                      "~/Content/assets/plugins/gritter/js/jquery.gritter.js",
+                      "~/Content/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+                      "~/Content/assets/js/demo/dashboard.min.js",
+                      //"~/Content/assets/plugins/pace/pace.min.js",
+                      "~/Content/assets/plugins/parsley/dist/parsley.js",
+                      "~/Content/assets/plugins/highlight/highlight.common.js",
+                      "~/Content/assets/js/demo/render.highlight.js",
+                      "~/Content/assets/plugins/DataTables/media/js/jquery.dataTables.js",
+                      "~/Content/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js",
+                      "~/Content/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js",
+                      "~/Content/assets/js/demo/table-manage-responsive.demo.min.js",
+                      "~/Content/assets/js/Sidebar.js",
+                      "~/Content/assets/js/common.js",
+                      "~/Content/assets/plugins/select2/dist/js/select2.min.js",
+                      "~/Scripts/helper.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
+                "~/Scripts/jquery.signalR-2.4.0.js",
+                "~/Scripts/jquery.signalR-2.4.0.min.js"
+                ));
+
+
+        }
+    }
+}

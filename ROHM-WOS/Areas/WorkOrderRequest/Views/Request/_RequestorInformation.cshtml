@@ -1,0 +1,98 @@
+﻿@using ROHM_WOS.Models.Helper;
+<div id="step-1">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Resquestor Emp#: </label>
+                <div class="col-md-9">
+                    <input type="text" readonly id="RequestorEmployeeNo" name="RequestorEmployeeNo" class="form-control form-control-sm clear usr_ctrl input_state" value="@ViewBag.User.EmployeeNo">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Requestor Name: </label>
+                <div class="col-md-9">
+                    <input type="text" readonly id="RequestorName" name="RequestorName" class="form-control form-control-sm clear usr_ctrl input_state"
+                           value="@String.Concat(ViewBag.User.FirstName,' ',ViewBag.User.LastName)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Mobile #: </label>
+                <div class="col-md-9">
+                    <input type="text" readonly id="RequestorMobileNo" name="RequestorMobileNo" class="form-control form-control-sm clear usr_ctrl input_state"
+                           value="@ViewBag.User.MobileNo">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Division: </label>
+                <div class="col-md-9">
+                    <select disabled id="DivisionID" name="DivisionID" class="form-control form-control-sm clear usr_ctrl input_state">
+                        <option value="">--SELECT--</option>
+                        @foreach (DropDown DivisionObj in ViewBag.DivisionList)
+                        {
+                            var isDivision = ViewBag.User.DivisionID.ToString() == DivisionObj.ID.ToString() ? "selected" : "";
+                            <option value="@DivisionObj.ID" @isDivision>@DivisionObj.ItemName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Local #: </label>
+                <div class="col-md-9">
+                    <input type="text" readonly id="LocalNo" name="LocalNo" class="form-control form-control-sm clear usr_ctrl input_state" value="@ViewBag.User.LocalNo">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Department: </label>
+                <div class="col-md-9">
+                    <select disabled id="DepartmentID" name="DepartmentID" class="form-control form-control-sm clear usr_ctrl input_state">
+                        <option value="">--SELECT--</option>
+                        @foreach (DropDown DepartmentObj in ViewBag.DepartmentList)
+                        {
+                            var isDepartment = ViewBag.User.DepartmentID.ToString() == DepartmentObj.ID.ToString() ? "selected" : "";
+                            <option value="@DepartmentObj.ID" @isDepartment>@DepartmentObj.ItemName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Intranet Email: </label>
+                <div class="col-md-9">
+                    <input readonly type="email" id="IntranetEmail" name="IntranetEmail" class="form-control form-control-sm clear usr_ctrl input_state" value="@ViewBag.User.Email">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label">Section: </label>
+                <div class="col-md-9">
+                    <select disabled id="SectionID" name="SectionID" class="form-control form-control-sm clear usr_ctrl input_state">
+                        <option value="">--SELECT--</option>
+                        @foreach (DropDown SectionObj in ViewBag.SectionList)
+                        {
+                            var isSection = ViewBag.User.SectionID.ToString() == SectionObj.ID.ToString() ? "selected" : "";
+                            <option value="@SectionObj.ID" @isSection>@SectionObj.ItemName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

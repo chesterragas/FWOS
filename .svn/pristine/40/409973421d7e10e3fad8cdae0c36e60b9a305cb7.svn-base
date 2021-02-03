@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "ApproverSequence";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ApproverSequence</h2>
+

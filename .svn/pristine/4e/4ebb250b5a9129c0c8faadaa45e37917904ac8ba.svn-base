@@ -1,0 +1,136 @@
+﻿
+@{
+    Layout = null;
+}
+@using ROHM_WOS.Models.MasterEntities;
+@using ROHM_WOS.Models.MasterProcedure;
+@using System.Data.SqlClient;
+@using ROHM_WOS.Controllers;
+@using System.Configuration;
+@using System.Linq;
+@{
+    string UserName = string.Empty;
+    List<UserPageAccess> MasterPageList = (List<UserPageAccess>)(Session["MasterPageList"]);
+    List<UserPageAccess> WorkOrderApproval = (List<UserPageAccess>)(Session["WorkOrderApproval"]);
+    List<UserPageAccess> WorkOrderRequest = (List<UserPageAccess>)(Session["WorkOrderRequest"]);
+
+    string Userphoto = string.Empty;
+    string EmployeeNo = string.Empty;
+    if ((M_Users)(Session["user"]) != null)
+    {
+        M_Users UserInfo = (M_Users)(Session["user"]);
+        UserName = UserInfo.FirstName + " " + UserInfo.LastName;
+        EmployeeNo = UserInfo.EmployeeNo;
+        string picuser = "";
+        if (UserInfo.UserPhoto == "" || UserInfo.UserPhoto == null)
+        {
+            Userphoto = "/PictureResources/UsersPhoto/unknown.jpg";
+        }
+        else
+        {
+            Userphoto = "/PictureResources/UsersPhoto/" + UserInfo.UserPhoto;
+        }
+
+    }
+    else
+    {
+        Url.Action("Logout", "Login");
+    }
+}
+
+
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar">
+  
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <input type="hidden" class="form-control input-sm" name="currentuser" id="currentuser" value=@UserName readonly="">
+        <!-- begin sidebar user -->
+        <ul class="nav">
+            <li class="nav-profile">
+                <a href="javascript:;" data-toggle="nav-profile">
+                    <div class="cover with-shadow"></div>
+                    <div class="image">
+                        <img src="@Userphoto" alt="" />
+                    </div>
+                    <div class="info">
+                        <a href="/Home/UserProfile" style="color:white">
+                            @UserName
+                            <small>@EmployeeNo</small>
+                        </a>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <!-- end sidebar user -->
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+            <li>
+                <a href="/Home/Index">
+                    <i class="fa fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Home/Chat">
+                    <i class="fa fa-envelope"></i>
+                    <span>ChatBox</span>
+                </a>
+            </li>
+            @if (MasterPageList.Where(x => x.AccessType == true).ToList().Count > 0)
+            {
+                <li class="has-sub">
+                    <a href="javascript:;">
+                        <b class="caret"></b>
+                        <i class="fa fa-cogs"></i>
+                        <span>Masters</span>
+                    </a>
+                    <ul class="sub-menu">
+                        @foreach (UserPageAccess x in MasterPageList)
+                        {
+                            if (x.AccessType == true)
+                            {
+                                <li class=""><a href="@Url.Action(x.PageIndex, x.PageIndex, new { area = "MasterModule" })"><i class="fa fa-circle-o"></i> @x.PageName </a></li>
+                            }
+                        }
+                    </ul>
+                </li>
+            }
+            @if (WorkOrderRequest.Where(x => x.AccessType == true).ToList().Count > 0)
+            {
+                foreach (UserPageAccess x in WorkOrderRequest)
+                {
+                    if (x.AccessType == true)
+                    {
+                        <li class=""><a href="@Url.Action(x.PageIndex, x.PageIndex, new { area = x.PageIndex })"><i class="fa fa-desktop"></i> @x.PageName </a></li>
+                    }
+                }
+            }
+            @if (WorkOrderApproval.Where(x => x.AccessType == true).ToList().Count > 0)
+            {
+                foreach (UserPageAccess x in WorkOrderApproval)
+                {
+                    if (x.AccessType == true)
+                    {
+                        <li class=""><a href="@Url.Action(x.PageIndex, x.PageIndex, new { area = x.PageIndex })"><i class="fa fa-paper-plane"></i> @x.PageName </a></li>
+                    }
+                }
+            }
+
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret"></b>
+                    <i class="far fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="/report-summary">Report Summary</a></li>
+                </ul>
+            </li>
+            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+<div class="sidebar-bg"></div>
